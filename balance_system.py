@@ -1,3 +1,12 @@
+"""
+This is an incomplete sample implementation of the Balance system model for our
+qBnB plan.
+Group 21 - CISC 327
+Author: Aniket Mukherjee
+Student Number: 20245057
+Date: September 23, 2022
+"""
+
 user_db = {"name": "Sam Fisher",
            "balance": 5643,
            "deposit method": "credit card",
@@ -20,6 +29,11 @@ class Balance:
         validity = self.validity
 
     def validate(self):
+        """
+        This Function will serve as our way to check if a payment type or deposit method is valid before actually
+        adding money to ones balance on the site
+        """
+
         # to check for validity, we'd need the length of the card number,
         # read the expiry date and the 3 digit code at the back, and that's just for using credit cards
         if user_db["deposit method"] == "credit card":  # checking to see if the user chose to deposit via credit cards
