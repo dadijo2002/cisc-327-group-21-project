@@ -30,9 +30,6 @@ class User:
     def get_balance(self):
         """Gets a user's blanace"""
         return self.balance
-       
 
-    def __repr__(self):
-        return '<User %r>' % self.username
 
 
