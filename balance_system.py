@@ -32,7 +32,7 @@ class Balance:
 
     def validate(self):
         """
-        This Function will serve as our way to check if a payment type or deposit method is valid before actually
+        This Function will check if a payment type is valid before actually
         adding money to ones balance on the site
         """
 
