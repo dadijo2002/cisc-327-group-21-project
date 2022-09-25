@@ -30,41 +30,7 @@ class User:
     def get_balance(self):
         """Gets a user's blanace"""
         return self.balance
-
-    def validate_password(password):
-        """This Function will serve as our way to check if a password
-            is valid before adding it to the system. """
-        lower, upper, special, digit = 0, 0, 0, 0
-        # counter variables of lowercase, uppercase,special and digit
-        # characters  
-        if len(password)>=6:
-            for i in password:
-            
-                # counting lowercase alphabets
-                if (i.islower()):
-                    lower+=1           
-            
-                # counting uppercase alphabets
-                if (i.isupper()):
-                    upper+=1           
-            
-                # counting digits
-                if (i.isdigit()):
-                    digit+=1           
- 
-                # counting special characters
-                if(i=='@'or i=='$' or i=='_'):
-                    special+=1          
-            if (lower>=1 and upper>=1 and special>=1 and 
-                digit>=1 and lower+special+upper+digit==len(password)):
-                # If password has one or more uppercase letter, lowercase
-                # letter, sepecial character,and digit and no other
-                # characters
-                return True
-        else:
-            return False 
-
-        
+       
 
     def __repr__(self):
         return '<User %r>' % self.username
