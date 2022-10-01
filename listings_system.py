@@ -1,5 +1,6 @@
 """
-This is an incomplete listings system for the qBnB plan.
+This is an incomplete listings 
+system for the qBnB plan.
 Group 21 - CISC 327
 Author: Yash Patel
 Student Number: 20227432
@@ -13,7 +14,7 @@ listing_db = {"Host": "Bob Dylan",
               "Location": "Sault Ste. Marie, Ontario",
               "Price Per Night": 450,
               "Amount of Guests": 8,
-              "Amenities": ["Wifi", "Kitchen", "TV", "Washer", "Dryer"],
+              "Amenities": ["Wi-fi", "Kitchen", "TV", "Washer", "Dryer"],
               "Description": "A groovy cottage in Guelph, Ontario",
               "Availability": "1997-10-9 to 2024-12-12",  # Year | month | day!
               }
