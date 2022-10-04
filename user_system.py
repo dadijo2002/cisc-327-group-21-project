@@ -1,35 +1,63 @@
-
 """
-This is an incomplete sample implementation of the user model for our
-qBnb plan.
+# Description
+Adding billing address and postal code attributes to the user class.
+Making the user class compatible to SQL.
 
-Group 21 - CISC 327
+
 Author: Makayla McMullin
-Student Number: 20226722
-Date: September 23, 2022
+Fixes # 2
+
+## Type of change
+
+Please delete options that are not relevant.
+
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] This change requires a documentation update
+
+
+# Checklist:
+
+- [x] My code follows the style guidelines of this project (PEP 8)
+- [x] I have performed a self-review of my own code
+- [x] I have commented my code, particularly in hard-to-understand areas
+- [x] My changes generate no new warnings
+- [x] Any dependent changes have been merged and published in downstream modules
+
 """
-
-user_input={ "username": "user1234",
-            "name": "John Smith",
-            "email": "john.smith@yahoo.com",
-            "password": "Vgk34_l"}
-
-class User:
-
-    def __init__(self):
-        """Initalizes user information from user input"""
-        self.username = user_input["username"]
-        self.name= user_input["name"]
-        self.email = user_input["email"]
-        self.password = user_input["password"]
-        self.listings = None 
-        self.bookings=None
-        self.balance = 0
+import os
+from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
 
 
-    def get_balance(self):
-        """Gets a user's blanace"""
-        return self.balance
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+# ^ need to decide what database we connect to?
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+
+class User(db.Model):
+    """This class initializes the user data base"""
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(80), unique=True, nullable=False)
+    billing_address=db.Column(db.String(120), unique=True, nullable=False)
+    postal_code= db.Column(db.String(6), unique=True, nullable=False)
+    balance =  db.Column(db.String(10), unique=True, nullable=False)
+    # Create database column for each user attribute 
+
+    listings = db.relationship('listing', backref='user')
+    bookings = db.relationship('booking', backref='user')
+    # Make realationship with listings and booking databases 
+    # TODO: ensure listing and booking databases have crresponding code
+
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
 
 
 
