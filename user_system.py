@@ -1,29 +1,3 @@
-"""
-# Description
-Adding billing address and postal code attributes to the user class.
-Making the user class compatible to SQL.
-
-
-Author: Makayla McMullin
-Fixes # 2
-
-## Type of change
-
-Please delete options that are not relevant.
-
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] This change requires a documentation update
-
-
-# Checklist:
-
-- [x] My code follows the style guidelines of this project (PEP 8)
-- [x] I have performed a self-review of my own code
-- [x] I have commented my code, particularly in hard-to-understand areas
-- [x] My changes generate no new warnings
-- [x] Any dependent changes have been merged and published in downstream modules
-
-"""
 import os
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
