@@ -3,9 +3,7 @@ This is an incomplete sample implementation of the transaction model for
 our qBnb plan.
 
 Group 21 - CISC 327
-Author: Daniel Dickson
-Student Number: 20206675
-Date: October 7, 2022
+Last Modified Date: October 7, 2022
 """
 
 # TODO: Reference a database (SQL) of all successful transactions
@@ -85,7 +83,8 @@ class Transaction:
     end dates of the rental as defined by the user.
     """
 
-    today = int(str(date.today()).replace("-", ""))
+    todays_date = str(date.today())
+    today = int(todays_date.replace("-", ""))
     
     thirty_days = [4, 6, 9, 11]
     thirtyone_days = [1, 3, 5, 7, 8, 10, 12]
