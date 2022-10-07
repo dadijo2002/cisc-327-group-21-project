@@ -16,9 +16,9 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
-    billing_address=db.Column(db.String(120), unique=True, nullable=False)
-    postal_code= db.Column(db.String(6), unique=True, nullable=False)
-    balance =  db.Column(db.String(10), unique=True, nullable=False)
+    billing_address = db.Column(db.String(120), unique=True, nullable=False)
+    postal_code = db.Column(db.String(6), unique=True, nullable=False)
+    balance = db.Column(db.String(10), unique=True, nullable=False)
     # Create database column for each user attribute 
 
     listings = db.relationship('listing', backref='user')
@@ -26,13 +26,13 @@ class User(db.Model):
     # Make realationship with listings and booking databases 
     # TODO: ensure listing and booking databases have crresponding code
 
-
     def __repr__(self):
         return '<User %r>' % self.username
 
     def login(self):
         """
-        This function validates username and password before login is completed.
+        This function validates username and password before login is
+        completed.
         """
         username = input("Username: ")
         password = input("Password: ")
@@ -62,7 +62,7 @@ class User(db.Model):
 
                 # if user is found, check that password matches for that user
                 if result != None:
-
+                    
                     if result.password == password:
                         print("Login successful! Welcome back, " + username + "!")
 
@@ -76,8 +76,8 @@ class User(db.Model):
                 print("Invalid password format!")
 
         elif (" " in username and username[0] != " " and
-            username[-1] != " "):
-            temp_user = username.replace(" ", "")
+                username[-1] != " "):
+                temp_user = username.replace(" ", "")
 
             # If no special characters other than space and format allowed
             # Check that no existing account already has this username
@@ -93,7 +93,7 @@ class User(db.Model):
 
                 # verify password format
                 if (len(password) >= 6 and password.isalnum() and caps_check >= 1 and
-                    lower_check >= 1 and num_check >= 1):
+                        lower_check >= 1 and num_check >= 1):
 
                     # if both user & pass are valid, check database for existing user
                     result = User.query.filter_by(username=username).first()
@@ -112,7 +112,7 @@ class User(db.Model):
 
                 else:
                     print("Invalid password format!")
-            
+
             else:
                 print("Invalid username format!")
 
