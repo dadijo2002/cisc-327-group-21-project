@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-
 """
 This is an incomplete sample implementation
 of some of the backend features for the user class
@@ -10,7 +9,7 @@ Author: Aniket Mukherjee
 Student Number: 20245057
 Date: October 3, 2022
 """
-# setting up some flask and sqlalchemy functionality
+# setting up some flask and SQLalchemy functionality
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -42,18 +41,28 @@ class User(db.Model):
     listings = db.relationship('listing', backref='user')
     bookings = db.relationship('booking', backref='user')
 
-    def validate_username(self):
+    def validate_username(self, username):
         """
 
         :return: A boolean that determines if the username is valid or not
         """
         # This function serves to satisfy requirements R1-5 and R1-6
-        if self.username != "" and self.username.isalnum()\
-                and (self.username.find(" ") == 0 or
-                     self.username.find(" ") == self.username.length):
+        if self.username != "" and self.username.isalnum() \
+                and not (self.username.find(" ") == 0 or
+                         self.username.find(" ") == self.username.length):
             return True
         else:
             return False
+
+    def test_validate_username(self):
+        """
+        testing requirements R1-5 and R1-6
+        """
+        assert self.validate_username("Cha0sW1nd") is True
+        assert self.validate_username(" brian") is False
+        assert self.validate_username("Captain$") is False
+        assert self.validate_username("1nc0gn1t0") is True
+        assert self.validate_username("arnovd ") is False
 
     def email_search(self, email):
         """
@@ -70,3 +79,15 @@ class User(db.Model):
                 return False
             else:
                 return True
+
+    def test_email_search(self):
+        """
+        testing requirement R1-7
+        """
+        email_list = ["ghost@gmail.com",
+                      "panther@hotmail.com", "paladin@gmail.com"]
+        # this list simulates actual database entries
+        assert self.email_search("ghost@gmail.com") is True
+        assert self.email_search("whoopingcougher@gmail.com") is False
+        assert self.email_search("panther@gmail.com") is False
+        assert self.email_search("paladin@gmail.com") is True
