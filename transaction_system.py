@@ -10,7 +10,8 @@ Last Modified Date: October 7, 2022
 # TODO: Generate an ID for successful transactions based on
 # this database
 
-# TODO: Link the class with databases from other classes for full functionality
+# TODO: Link the class with databases from other classes for full
+# functionality
 
 from datetime import date
 import os
