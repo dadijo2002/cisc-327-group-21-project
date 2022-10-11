@@ -127,40 +127,40 @@ class Transaction:
         dates = [self.start_date, self.end_date]
         # loop to reduce code
 
-        for date in dates:
+        for day in dates:
           # ensure the month in the date has the correct number of days
-          if int(str(date)[4:6]) in thirty_days:
-            if int(str(date)[6:]) <= 30:
+          if int(str(day)[4:6]) in thirty_days:
+            if int(str(day)[6:]) <= 30:
               self.validity = True
             else:
               self.validity = False
               return
-          elif int(str(date)[4:6]) in thirtyone_days:
-            if int(str(date)[6:]) <= 31:
+          elif int(str(day)[4:6]) in thirtyone_days:
+            if int(str(day)[6:]) <= 31:
               self.validity = True
             else:
               self.validity = False
               return
-          elif int(str(date)[4:6]) == FEB:
+          elif int(str(day)[4:6]) == FEB:
             # leap years only occur every 4th year except every 100 years when
             # the year is not divisible by 400 (ex. 1900 was not a leap year, but
             # 2000 was), so this block of code below detects whether or not the
             # valid time can accomodate a leap year
-            if int(str(date)[0:4]) % 4 == 0:
-              if int(str(date)[2:4]) == 0 and int(str(date)[0:4]) % 400 != 0:
-                if int(str(date)[6:]) <= 28:
+            if int(str(day)[0:4]) % 4 == 0:
+              if int(str(day)[2:4]) == 0 and int(str(day)[0:4]) % 400 != 0:
+                if int(str(day)[6:]) <= 28:
                   self.validity = True
                 else:
                   self.validity = False
                   return
               else:
-                if int(str(date)[6:]) <= 29:
+                if int(str(day)[6:]) <= 29:
                   self.validity = True
                 else:
                   self.validity = False
                   return
             else:
-              if int(str(date)[6:]) <= 28:
+              if int(str(day)[6:]) <= 28:
                 self.validity = True
               else:
                 self.validity = False
