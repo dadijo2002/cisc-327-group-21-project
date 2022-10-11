@@ -13,6 +13,9 @@ Author: Yash Patel
 Student Number: 20227432
 Date: September 25, 2022
 """
+
+from datetime import date
+
 # This block of code represents a simulation of a listing entry in a database
 # I have read through the airbnb website and made a checklist of what
 # could be included for the listing entries;
@@ -48,6 +51,33 @@ class Listings(db.Model):  # SQLified the old Listings class a little bit
                 or self.availability == "":
             return False
         else:
+
+            today = date.today()
+            year_today = str(today)[0:4]
+            month_today = str(today)[5:7]
+            day_today = str(today)[8:]
+
+            # ensure date is between/including Jan 3, 2021 and Jan 1, 2025
+            # per R4-6 and R5-3
+            if int(year_today) >= 2022 and int(year_today) <= 2024:
+                if int(month_today) >= 1 and int(month_today) <= 12:
+                    if int(day_today) >= 1 and int(day_today) <= 31:
+                        self.last_modified_date = str(today)
+
+            elif int(year_today) == 2021:
+
+                if int(month_today) == 1:
+                    if int(day_today) >= 3 and int(day_today) <= 31:
+                        self.last_modified_date = str(today)
+
+                elif int(month_today) >= 2 and int(month_today) <= 12:
+                    if int(day_today) >= 1 and int(day_today) <= 31:
+                        self.last_modified_date = str(today)
+
+            elif int(year_today) == 2025 and int(month_today) == 1 and int(day_today) == 1:
+                self.last_modified_date = str(today)
+
+            # listing modification is valid, return True
             return True
 
     def get_listing(self):
