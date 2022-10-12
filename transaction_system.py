@@ -3,52 +3,53 @@ This is an incomplete sample implementation of the transaction model for
 our qBnb plan.
 
 Group 21 - CISC 327
-Author: Daniel Dickson
-Student Number: 20206675
-Date: September 23, 2022
+Last Modified Date: October 7, 2022
 """
 
 # TODO: Reference a database (SQL) of all successful transactions
 # TODO: Generate an ID for successful transactions based on
 # this database
 
+# TODO: Link the class with databases from other classes for full
+# functionality
+
 from datetime import date
+import os
+from flask import Flask, render_template, request, redirect, url_for
+from flask_sqlalchemy import SQLAlchemy
 
-user_db = {"name": "Felonius Gru",
-                  "balance": 1000000.00}
 
-transaction_db = {"unit cost": 1234.00,
-                  "unit name": "Minion Beach",
-                  "unit id": 16984,
-                  "seller": "Bob the Minion",
-                  "start date": 20220613,
-                  "end date": 20220701,
-                  "transaction id": 1,
-                  "availability": True}
-# this is an approximation of potential necessary values for a
-# transaction, these values are not final: more may be added
-# or some may be taken out in the final product
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+# ^ need to decide what database we connect to?
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+t_db = SQLAlchemy(app)
 
 class Transaction:
 
-  def __init__(self, user, transaction_info, name, balance, unit_cost,
-               unit_name, unit_id, seller_name, start_date, end_date, transaction_id,
-               availability, validity):
-    self.user = user_db # user specific info
-    self.transaction_info = transaction_db
-    # transaction & property specific info
-    self.name = user_db["name"]
-    self.balance = user_db["balance"]
-    self.unit_cost = transaction_db["unit cost"]
-    self.unit_name = transaction_db["unit name"]
-    self.unit_id = transaction_db["unit id"]
-    self.seller_name = transaction_db["seller name"]
-    self.start_date = transaction_db["start date"]
-    self.end_date = transaction_db["end date"]
-    self.transaction_id = transaction_db["transaction id"]
-    self.availability = transaction_db["availability"]
+
+  t_id = t_db.Column(t_db.Integer, primary_key=True)
+  start_date = t_db.Column(t_db.Integer, nullable=False)
+  end_date = t_db.Column(t_db.Integer, nullable=False)
+
+  renter = t_db.relationship('renter', backref='user')
+  seller = t_db.relationship('seller', backref='user')
+  property = t_db.relationship('property', backref='listing')
+
+  def __init__(self, user, listing_info):
+    self.user = user # user specific info
+    self.username = user.username
+    self.balance = user.balance
+    self.unit_cost = listing_info.cost
+    self.unit_name = listing_info.name
+    self.unit_id = listing_info.id
+    self.seller_name = listing_info.seller
+    self.availability = listing_info.availability
     self.validity = False
     # default is False so that errors can be recognized later if any exist
+
+    # TODO: Figure out how to connect to other databases to get information,
+    # remove user.x and listing_info.x and replace with database info
 
   def check_balance(self):
     """
@@ -83,7 +84,8 @@ class Transaction:
     end dates of the rental as defined by the user.
     """
 
-    today = int(str(date.today()).replace("-", ""))
+    todays_date = str(date.today())
+    today = int(todays_date.replace("-", ""))
     
     thirty_days = [4, 6, 9, 11]
     thirtyone_days = [1, 3, 5, 7, 8, 10, 12]
@@ -126,40 +128,40 @@ class Transaction:
         dates = [self.start_date, self.end_date]
         # loop to reduce code
 
-        for date in dates:
+        for day in dates:
           # ensure the month in the date has the correct number of days
-          if int(str(date)[4:6]) in thirty_days:
-            if int(str(date)[6:]) <= 30:
+          if int(str(day)[4:6]) in thirty_days:
+            if int(str(day)[6:]) <= 30:
               self.validity = True
             else:
               self.validity = False
               return
-          elif int(str(date)[4:6]) in thirtyone_days:
-            if int(str(date)[6:]) <= 31:
+          elif int(str(day)[4:6]) in thirtyone_days:
+            if int(str(day)[6:]) <= 31:
               self.validity = True
             else:
               self.validity = False
               return
-          elif int(str(date)[4:6]) == FEB:
+          elif int(str(day)[4:6]) == FEB:
             # leap years only occur every 4th year except every 100 years when
             # the year is not divisible by 400 (ex. 1900 was not a leap year, but
             # 2000 was), so this block of code below detects whether or not the
             # valid time can accomodate a leap year
-            if int(str(date)[0:4]) % 4 == 0:
-              if int(str(date)[2:4]) == 0 and int(str(date)[0:4]) % 400 != 0:
-                if int(str(date)[6:]) <= 28:
+            if int(str(day)[0:4]) % 4 == 0:
+              if int(str(day)[2:4]) == 0 and int(str(day)[0:4]) % 400 != 0:
+                if int(str(day)[6:]) <= 28:
                   self.validity = True
                 else:
                   self.validity = False
                   return
               else:
-                if int(str(date)[6:]) <= 29:
+                if int(str(day)[6:]) <= 29:
                   self.validity = True
                 else:
                   self.validity = False
                   return
             else:
-              if int(str(date)[6:]) <= 28:
+              if int(str(day)[6:]) <= 28:
                 self.validity = True
               else:
                 self.validity = False
