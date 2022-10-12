@@ -1,3 +1,9 @@
+"""
+This program establishes the user/profile system for qBnb.
+
+Last Updated: October 11, 2022
+"""
+
 import os
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
