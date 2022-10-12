@@ -3,7 +3,7 @@ This is a list of test cases for the transaction system.
 This is a WIP as the transaction system is improved.
 """
 
-from qbnb.models import transaction_system
+import transaction_system
 
 def test_check_balance(self):
     """
