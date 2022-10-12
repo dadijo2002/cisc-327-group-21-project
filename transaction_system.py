@@ -83,7 +83,7 @@ class Transaction:
     This function checks the validity of the requested start and
     end dates of the rental as defined by the user.
     """
-
+    
     todays_date = str(date.today())
     today = int(todays_date.replace("-", ""))
     
