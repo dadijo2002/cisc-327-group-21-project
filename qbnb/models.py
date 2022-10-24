@@ -71,6 +71,11 @@ def login(username, password):
 
         # If no special characters other than space and format allowed
         # Check that no existing account already has this username
+        
+        caps_check = 0
+        lower_check = 0
+        num_check = 0
+
         if temp_user.isalnum():
 
             for char in password:
