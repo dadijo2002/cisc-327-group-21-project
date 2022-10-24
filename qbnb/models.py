@@ -51,7 +51,7 @@ def login(username, password):
             result = User.query.filter_by(username=username).first()
 
             # if user is found, check that password matches for that user
-            if result not None:
+            if result is not None:
 
                 if result.password == password:
                     print("Login successful! Welcome back, " + username + "!")
