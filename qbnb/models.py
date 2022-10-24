@@ -51,7 +51,7 @@ def login(username, password):
             result = User.query.filter_by(username=username).first()
 
             # if user is found, check that password matches for that user
-            if result != None:
+            if result not None:
 
                 if result.password == password:
                     print("Login successful! Welcome back, " + username + "!")
@@ -82,17 +82,19 @@ def login(username, password):
                     num_check += 1
 
             # verify password format
-            if (len(password) >= 6 and password.isalnum() and caps_check >= 1 and
-                    lower_check >= 1 and num_check >= 1):
+            if (len(password) >= 6 and password.isalnum() and
+                    caps_check >= 1 and lower_check >= 1 and num_check >= 1):
 
-                # if both user & pass are valid, check database for existing user
+                # if both user & pass are valid, check database for
+                # existing user
                 result = User.query.filter_by(username=username).first()
 
                 # if user is found, check that password matches for that user
-                if result != None:
+                if result is not None:
 
                     if result.password == password:
-                        print("Login successful! Welcome back, " + username + "!")
+                        print("Login successful! Welcome back, "
+                              + username + "!")
 
                     else:
                         print("Incorrect password! Please try again.")
@@ -121,7 +123,7 @@ def update_username(self):
         result = User.query.filter_by(username=new_username).first()
 
         # Once validated, update username
-        if result == None:
+        if result is None:
             self.username = new_username
             print("Username successfully updated!")
 
@@ -139,7 +141,7 @@ def update_username(self):
                 result = User.query.filter_by(username=new_username).first()
 
                 # Once validated, update username
-                if result == None:
+                if result is None:
                     self.username = new_username
                     print("Username successfully updated!")
         else:
@@ -158,14 +160,13 @@ def update_email(self):
         try:
             valid_email = validate_email(new_email)
             new_email = valid_email["email"]
-        except:
-            return EmailNotValidError
+        except EmailNotValidError
 
         # Check that no existing account already has this email address
         result = User.query.filter_by(email=new_email).first()
 
         # Once validated, update username
-        if result == None:
+        if result is None:
             self.email = new_email
             print("Email successfully updated!")
 
@@ -202,10 +203,13 @@ def update_postal_code(self):
 
         # Once validated, update postal code
         if (new_postal_code[0] in "ABCEGHJKLMNPRSTVXY" and
-                new_postal_code[1].isnumeric() and new_postal_code[3].isnumeric() and
-                new_postal_code[5].isnumeric() and new_postal_code[2].isalpha() and
+                new_postal_code[1].isnumeric() and
+                new_postal_code[3].isnumeric() and
+                new_postal_code[5].isnumeric() and
+                new_postal_code[2].isalpha() and
                 new_postal_code[2].isalpha()):
-            # Checks for valid province/region code and valid format (ex. A1A1A1)
+            # Checks for valid province/region code and valid format
+            # (ex. A1A1A1)
             # TODO: Add more specific verification since not every
             # character/combination is used
 
@@ -225,7 +229,8 @@ def register(username, email, password):
       Returns:
         True if registration succeeded otherwise False
     '''
-    if validate_username: # username vaild (r1-5, r1-6)
+
+    if validate_username:  # username vaild (r1-5, r1-6)
         if verify_password:  # password vaild (r1-4)
             if verify_email:  # email vaild (r1-3)
                 # check if the email has been used: (r1-7)
@@ -253,13 +258,12 @@ def verify_email(email):
     return: boolean variable True if email address is vaild and False
             if not valid.
     """
+
     if len(email) != 0:
         try:
             valid_email = validate_email(email)
             email = valid_email["email"]
-        except:
-            print("Invalid email format!")
-            return
+        except EmailNotValidError
 
 
 def verify_password(password):
@@ -267,7 +271,7 @@ def verify_password(password):
     This function is used in the register and login functions to check
     that a given password is vaild
 
-    parameter: password 
+    parameter: password
     return: boolean variable True if password is vaild and False if
             not valid.
     """
