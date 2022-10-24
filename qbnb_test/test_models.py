@@ -2,7 +2,7 @@
 Contains the backend testing functions
 """
 from qbnb.models import User, register, login
-# from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 

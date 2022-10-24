@@ -160,7 +160,7 @@ def update_email(self):
         try:
             valid_email = validate_email(new_email)
             new_email = valid_email["email"]
-        except EmailNotValidError
+        except: EmailNotValidError
 
         # Check that no existing account already has this email address
         result = User.query.filter_by(email=new_email).first()
@@ -263,7 +263,7 @@ def verify_email(email):
         try:
             valid_email = validate_email(email)
             email = valid_email["email"]
-        except EmailNotValidError
+        except: EmailNotValidError
 
 
 def verify_password(password):
