@@ -279,6 +279,7 @@ def verify_password(password):
     caps_check = 0
     lower_check = 0
     num_check = 0
+    special_check = 0 
 
     for char in password:
         if char.isupper():
@@ -287,9 +288,11 @@ def verify_password(password):
             lower_check += 1
         elif char.isnumeric():
             num_check += 1
+        elif not char.isalnum():
+            special_check += 1 
 
     if (len(password) >= 6 and password.isalnum() and caps_check >= 1 and
-            lower_check >= 1 and num_check >= 1):
+            lower_check >= 1 and num_check >= 1 and special_check >= 1 ):
         return True
     else:
         return False
