@@ -82,8 +82,8 @@ class User(db.Model):
                 print("Invalid password format!")
 
         elif (" " in username and username[0] != " " and
-                username[-1] != " "):
-                temp_user = username.replace(" ", "")
+            username[-1] != " "):
+            temp_user = username.replace(" ", "")
 
             # If no special characters other than space and format allowed
             # Check that no existing account already has this username
