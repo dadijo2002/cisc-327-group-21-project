@@ -2,9 +2,7 @@
 This program establishes the user/profile system for qBnb.
 Last Updated: October 11, 2022
 """
-# need to get register function in here too
-import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from email_validator import validate_email, EmailNotValidError
 
@@ -29,8 +27,8 @@ class User(db.Model):
     listings = db.relationship('listing', backref='user')
     bookings = db.relationship('booking', backref='user')
 
-    # Make realationship with listings and booking databases
-    # TODO: ensure listing and booking databases have crresponding code
+    # Make relationship with listings and booking databases
+    # TODO: ensure listing and booking databases have corresponding code
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -40,81 +38,28 @@ def login(username, password):
     """
     This function validates username and password before login is
     completed.
+
+    Parameters:
+        username (string): user name
+        password (string): user password
     """
     # TODO: find some way to obscure passwords at login?
 
-    # verify username format
-    if len(username) != 0 and username.isalnum():
-        # verify password format
-        if verify_password(password):
-            # if both user & pass are valid, check database for existing user
-            result = User.query.filter_by(username=username).first()
+    if verify_password(password) and validate_username(username):
+        result = User.query.\
+            filter_by(username=username, password=password).all()
 
-            # if user is found, check that password matches for that user
-            if result is not None:
-
-                if result.password == password:
-                    print("Login successful! Welcome back, " + username + "!")
-
-                else:
-                    print("Incorrect password! Please try again.")
-
-            else:
-                print("Username not found!")
-
+        # check to see if the search got precisely one result
+        if len(result) != 1:
+            print("User not found, maybe try to register first?")
+            return None
         else:
-            print("Invalid password format!")
-
-    elif (" " in username and username[0] != " " and
-          username[-1] != " "):
-        temp_user = username.replace(" ", "")
-
-        # If no special characters other than space and format allowed
-        # Check that no existing account already has this username
-        
-        caps_check = 0
-        lower_check = 0
-        num_check = 0
-
-        if temp_user.isalnum():
-
-            for char in password:
-                if char.isupper():
-                    caps_check += 1
-                elif char.islower():
-                    lower_check += 1
-                elif char.isnumeric():
-                    num_check += 1
-
-            # verify password format
-            if (len(password) >= 6 and password.isalnum() and
-                    caps_check >= 1 and lower_check >= 1 and num_check >= 1):
-
-                # if both user & pass are valid, check database for
-                # existing user
-                result = User.query.filter_by(username=username).first()
-
-                # if user is found, check that password matches for that user
-                if result is not None:
-
-                    if result.password == password:
-                        print("Login successful! Welcome back, "
-                              + username + "!")
-
-                    else:
-                        print("Incorrect password! Please try again.")
-
-                else:
-                    print("Username not found!")
-
-            else:
-                print("Invalid password format!")
-
-        else:
-            print("Invalid username format!")
+            print("Login successful! Welcome back, " + username + "!")
+            return result[0]
 
 
 def update_username(self):
+
     """
     This function updates the username of the user.
     """
@@ -165,7 +110,9 @@ def update_email(self):
         try:
             valid_email = validate_email(new_email)
             new_email = valid_email["email"]
-        except: EmailNotValidError
+        except:
+            print("Invalid email format!")
+            return
 
         # Check that no existing account already has this email address
         result = User.query.filter_by(email=new_email).first()
@@ -214,7 +161,6 @@ def update_postal_code(self):
                 new_postal_code[2].isalpha() and
                 new_postal_code[2].isalpha()):
             # Checks for valid province/region code and valid format
-            # (ex. A1A1A1)
             # TODO: Add more specific verification since not every
             # character/combination is used
 
@@ -225,15 +171,16 @@ def update_postal_code(self):
 
 
 def register(username, email, password):
-    '''
+    """
     Register a new user
       Parameters:
-        name (string):     user name
+        username (string):     user name
         email (string):    user email
         password (string): user password
       Returns:
         True if registration succeeded otherwise False
-    '''
+
+    """
 
     if validate_username:  # username vaild (r1-5, r1-6)
         if verify_password:  # password vaild (r1-4)
@@ -258,7 +205,6 @@ def verify_email(email):
     """
     This function is used in the register and update_email functions to
     check that a given email is valid under RFC 5322 specifications.
-
     parameter: an email address
     return: boolean variable True if email address is vaild and False
             if not valid.
@@ -268,14 +214,14 @@ def verify_email(email):
         try:
             valid_email = validate_email(email)
             email = valid_email["email"]
-        except: EmailNotValidError
+        except:
+            EmailNotValidError
 
 
 def verify_password(password):
     """
     This function is used in the register and login functions to check
     that a given password is vaild
-
     parameter: password
     return: boolean variable True if password is vaild and False if
             not valid.
@@ -284,7 +230,7 @@ def verify_password(password):
     caps_check = 0
     lower_check = 0
     num_check = 0
-    special_check = 0 
+    special_check = 0
 
     for char in password:
         if char.isupper():
@@ -294,10 +240,10 @@ def verify_password(password):
         elif char.isnumeric():
             num_check += 1
         elif not char.isalnum():
-            special_check += 1 
+            special_check += 1
 
     if (len(password) >= 6 and password.isalnum() and caps_check >= 1 and
-            lower_check >= 1 and num_check >= 1 and special_check >= 1 ):
+            lower_check >= 1 and num_check >= 1 and special_check >= 1):
         return True
     else:
         return False
