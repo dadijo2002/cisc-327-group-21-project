@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>qBNB - User Profile</title>
+</head>
+<body>
+    <h1>Welcome, {{ current_user.username }}!</h1>
+    <button type="button", id="logoutbtn">Logout</button>
+    <div>
+        <form method="post">
+            <a href="listings_creation.html">
+                <button type="button" id="newlstgbtn">Create New Listing</button>
+            </a>
+                <a href="listings_update.html">
+                    <button type="button" id="updatelstgbtn">Update Existing Listing</button>
+                </a>
+            <a href="profile_update.html">
+                <button type="button" id="updateprofilebtn">Update My Profile</button>
+            </a>
+        </form>
+    </div>
+    <h2>My Bookings:</h2>
+</body>
+</html>

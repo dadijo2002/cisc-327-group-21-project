@@ -1,30 +1,30 @@
 <!-- Profile update page -->
-<h1> Upate Profile</h1>
+<h1> Update Profile</h1>
 <h4 id='Update your profile here:'></h4>
 <form method="post">
     <div class="form-group">
         <p><label for="email">Email</label>
-            <input class="form-control" name="email" id="email" required>
+            <input class="form-control" name="email" id="email" value="{{ user.email }}" required>
         </p>
         <p>
             <label for="name">Name</label>
-            <input class="form-control" name="name" id="name" required>
+            <input class="form-control" name="name" id="name" value="{{ user.name }}" required>
         </p>
         <p>
             <label for="password">Password</label>
-            <input class="form-control" type="password" name="password" id="password" required>
+            <input class="form-control" type="password" name="password" id="password" value="{{ user.password }}" required>
         </p>
         <p>
             <label for="password">Confirm Password</label>
-            <input class="form-control" type="password" name="password2" id="password2" required>
+            <input class="form-control" type="password" name="password2" id="password2" value="{{ user.password }}" required>
         </p>
         <p>
             <label for="password">Billing Address</label>
-            <input class="form-control" type="name" name="BillA" id="Billing Address">
+            <input class="form-control" type="name" name="BillA" id="Billing Address" value="{{ user.billing_address }}">
         </p>
         <p>
             <label for="password">Postal Code</label>
-            <input class="form-control" type="name" name="Postal" id="Postal" required>
+            <input class="form-control" type="name" name="Postal" id="Postal" value="{{ user.postal_code }}" required>
         </p>
         <p>
             <input class="btn btn-primary" type="submit" value="Update Profile">

@@ -2,6 +2,7 @@ from flask import render_template, request, session, redirect
 from qbnb.models import login, User, register
 
 from qbnb import app
+from qbnb.forms import UpdateProfile
 
 
 def authenticate(inner_function):
@@ -77,8 +78,8 @@ def home(user):
 
     # some fake product data
     products = [
-        {'name': 'prodcut 1', 'price': 10},
-        {'name': 'prodcut 2', 'price': 20}
+        {'name': 'product 1', 'price': 10},
+        {'name': 'product 2', 'price': 20}
     ]
     return render_template('index.html', user=user, products=products)
 
