@@ -1,5 +1,5 @@
 from flask import render_template, request, session, redirect
-from qbnb.models import login, User, register
+from qbnb.models import login, User, register, Listings
 
 from qbnb import app
 
@@ -35,7 +35,6 @@ def authenticate(inner_function):
             return redirect('/login')
 
     # return the wrapped version of the inner_function:
-    wrapped_inner.__name__ = inner_function.__name__
     return wrapped_inner
 
 
@@ -78,8 +77,8 @@ def home(user):
 
     # some fake product data
     products = [
-        {'name': 'product 1', 'price': 10},
-        {'name': 'product 2', 'price': 20}
+        {'name': 'prodcut 1', 'price': 10},
+        {'name': 'prodcut 2', 'price': 20}
     ]
     return render_template('index.html', user=user, products=products)
 
