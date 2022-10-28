@@ -78,8 +78,8 @@ def home(user):
 
     # some fake product data
 
-    name = request.form.get('name')
-    return render_template('user_profile.html', user=user, name=name)
+    username = request.form.get('name')
+    return render_template('user_profile.html', user=user, username=username)
 
 
 @app.route('/register', methods=['GET'])
