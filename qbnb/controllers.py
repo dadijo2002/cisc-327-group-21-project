@@ -77,7 +77,8 @@ def home(user):
     # front-end portals
 
     # some fake product data
-    name = request.form.get('username')
+
+    name = request.form.get('name')
     return render_template('user_profile.html', user=user, name=name)
 
 
