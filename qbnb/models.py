@@ -46,7 +46,7 @@ def login(username, password):
     # TODO: find some way to obscure passwords at login?
 
     if verify_password(password) and validate_username(username):
-        result = User.query.\
+        result = User.query. \
             filter_by(username=username, password=password).all()
 
         # check to see if the search got precisely one result
@@ -59,7 +59,6 @@ def login(username, password):
 
 
 def update_username(self):
-
     """
     This function updates the username of the user.
     """
@@ -285,58 +284,64 @@ class Listings(db.Model):
     last_modified_date = db.Column(db.String(50), unique=True, nullable=False)
     owner_email = db.Column(db.String(120), unique=True, nullable=False)
 
-    def title_check(self):
-        """
-        :return: a boolean value that determines whether the title is valid
-        """
-        # This serves to satisfy requirements R4-1 and R4-2
-        if self.title.isalnum() and \
-                (self.title.find(" ") == 0 or
-                 self.title.find(" ") == self.username.length) \
-                and len(self.title) <= 80:
-            return True
-        else:
-            return False
 
-    def description_check(self):
-        # this serves to satisfy requirements R4-3, R4-4
-        if len(self.description) < 20 or len(self.description) > 2000 or \
-                len(self.description) < len(self.title):
-            return False
-        else:
-            return True
+def title_check(self):
+    """
+    :return: a boolean value that determines whether the title is valid
+    """
+    # This serves to satisfy requirements R4-1 and R4-2
+    if self.title.isalnum() and \
+            (self.title.find(" ") == 0 or
+             self.title.find(" ") == self.username.length) \
+            and len(self.title) <= 80:
+        return True
+    else:
+        return False
 
-    # R4-5: Price has to be of range [10, 10000]
-    def price_validation(self):
-        # checking to see if the price is valid
-        if self.price < 10 or self.price > 10000:
-            return False
-        else:
-            return True
+
+def description_check(self):
+    # this serves to satisfy requirements R4-3, R4-4
+    if len(self.description) < 20 or len(self.description) > 2000 or \
+            len(self.description) < len(self.title):
+        return False
+    else:
+        return True
+
+
+# R4-5: Price has to be of range [10, 10000]
+def price_validation(self):
+    # checking to see if the price is valid
+    if self.price < 10 or self.price > 10000:
+        return False
+    else:
+        return True
 
     # R4-6: Last_modified_date must be after 2021-01-02 and before 2025-01-02
 
-    def date_validation(self):
-        # checking to see if the date is valid
-        if self.last_modified_date < "2021-01-02" or \
-                self.last_modified_date > "2025-01-02":
-            return False
-        else:
-            return True
 
-    # R4-7: owner_email cannot be empty. The owner of the corresponding
-    # product must exist in the database
-    def owner_email_validation(self):
-        # checking to see if the owner email is valid
-        if self.owner_email == "" or self.owner_email not in db.Model:
-            return False
-        else:
-            return True
+def date_validation(self):
+    # checking to see if the date is valid
+    if self.last_modified_date < "2021-01-02" or \
+            self.last_modified_date > "2025-01-02":
+        return False
+    else:
+        return True
 
-    # R4-8: A user cannot create products that have the same title
-    def title_validation(self):
-        # checking to see if the title is valid
-        if self.title in db.Model:
-            return False
-        else:
-            return True
+
+# R4-7: owner_email cannot be empty. The owner of the corresponding
+# product must exist in the database
+def owner_email_validation(self):
+    # checking to see if the owner email is valid
+    if self.owner_email == "" or self.owner_email not in db.Model:
+        return False
+    else:
+        return True
+
+
+# R4-8: A user cannot create products that have the same title
+def title_validation(self):
+    # checking to see if the title is valid
+    if self.title in db.Model:
+        return False
+    else:
+        return True
