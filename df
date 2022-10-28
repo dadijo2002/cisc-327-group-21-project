@@ -1,0 +1,52 @@
+[1mdiff --git a/qbnb/templates/register.html b/qbnb/templates/register.html[m
+[1mindex cf0529e..ccb9292 100644[m
+[1m--- a/qbnb/templates/register.html[m
+[1m+++ b/qbnb/templates/register.html[m
+[36m@@ -1,23 +1,23 @@[m
+[31m-{% extends 'base.html' %}[m
+ [m
+[31m-{% block header %}[m
+[31m-<h1>{% block title %}Register{% endblock %}</h1>[m
+[31m-{% endblock %}[m
+[32m+[m[32m<h1>Register </h1>[m
+ [m
+[31m-{% block content %}[m
+[31m-<h4 id='message'>{{message}}</h4>[m
+[32m+[m[32m<h4 id='message'> <p>New to qbnb?</p> Register below!</h4>[m
+ <form method="post">[m
+   <div class="form-group">[m
+[31m-    <label for="email">Email</label>[m
+[32m+[m[32m    <p><label for="email">Email</label>[m
+     <input class="form-control" name="email" id="email" required>[m
+[31m-    <label for="name">Name</label>[m
+[32m+[m[32m    </p>[m
+[32m+[m[32m    <p><label for="name">Username</label>[m
+     <input class="form-control" name="name" id="name" required>[m
+[31m-    <label for="password">Password</label>[m
+[32m+[m[32m    </p>[m
+[32m+[m[32m    <p><label for="password">Password</label>[m
+     <input class="form-control" type="password" name="password" id="password" required>[m
+[31m-    <label for="password">Confirm Password</label>[m
+[32m+[m[32m    </p>[m
+[32m+[m[32m    <p><label for="password">Confirm Password</label>[m
+     <input class="form-control" type="password" name="password2" id="password2" required>[m
+[31m-    <input class="btn btn-primary" type="submit" value="Register">[m
+[32m+[m[32m    </p>[m
+[32m+[m[32m    <p><input class="btn btn-primary" type="submit" value="Register">[m
+[32m+[m[32m    </p>[m
+   <a href='/login' class="btn btn-primary" id="btn-submit" >Login</a>[m
+   </div>[m
+ </form>[m
+[31m-{% endblock %}[m
+\ No newline at end of file[m
+[1mdiff --git a/qbnb_test/conftest.py b/qbnb_test/conftest.py[m
+[1mindex aab77b2..d208f80 100644[m
+[1m--- a/qbnb_test/conftest.py[m
+[1m+++ b/qbnb_test/conftest.py[m
+[36m@@ -1,5 +1,5 @@[m
+ import os[m
+[31m-from qbnb.models import app[m
+[32m+[m[32mfrom qbnb import app[m
+ [m
+ '''[m
+ This file defines what to do BEFORE running any test cases:[m

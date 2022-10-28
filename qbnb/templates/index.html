@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>qBNB - User Profile</title>
+</head>
+<body>
+    <h1>Welcome, {{ user.username }}!</h1>
+    <button type="button", id="logoutbtn">Logout</button>
+    <div>
+        <a href="listings_creation.html">
+            <button type="button" id="newlstgbtn">Create New Listing</button>
+        </a>
+            <a href="listings_update.html">
+                <button type="button" id="updatelstgbtn">Update Existing Listing</button>
+            </a>
+        <a href="profile_update.html">
+            <button type="button" id="updateprofilebtn">Update My Profile</button>
+        </a>
+    </div>
+    <h2>Here are all available products</h2>
+    <div id="products">
+        {% for product in products %}
+        <div>
+            <h4>name: {{ product.name }} price: {{ product.price }} <a href=''>update</a></h4>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
