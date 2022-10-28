@@ -24,8 +24,8 @@ class User(db.Model):
     balance = db.Column(db.String(10), unique=True, nullable=False)
     # Create database column for each user attribute
 
-    listings = db.relationship('listing', backref='user')
-    bookings = db.relationship('booking', backref='user')
+    listings = db.relationship('listing', backref='User')
+    bookings = db.relationship('booking', backref='User')
 
     # Make relationship with listings and booking databases
     # TODO: ensure listing and booking databases have corresponding code
@@ -261,7 +261,7 @@ def validate_username(username):
         return False
 
 
-class Listings(db.Model):
+class listing(db.Model):
     """
     This class creates a Review object for use within our QB&B project
     Attributes:
