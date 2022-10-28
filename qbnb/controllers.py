@@ -35,6 +35,7 @@ def authenticate(inner_function):
             return redirect('/login')
 
     # return the wrapped version of the inner_function:
+    wrapped_inner.__name__ = inner_function.__name__
     return wrapped_inner
 
 
