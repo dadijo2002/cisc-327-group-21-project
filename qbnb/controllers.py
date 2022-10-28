@@ -2,7 +2,6 @@ from flask import render_template, request, session, redirect
 from qbnb.models import login, User, register
 
 from qbnb import app
-from qbnb.forms import UpdateProfile
 
 
 def authenticate(inner_function):
