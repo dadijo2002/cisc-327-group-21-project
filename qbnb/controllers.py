@@ -77,7 +77,11 @@ def home(user):
     # front-end portals
 
     # some fake product data
-    return render_template('index.html', user=user)
+    products = [
+        {'name': 'product 1', 'price': 10},
+        {'name': 'product 2', 'price': 20}
+    ]
+    return render_template('index.html', user=user, products=products)
 
 
 @app.route('/register', methods=['GET'])
