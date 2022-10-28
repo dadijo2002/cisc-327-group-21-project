@@ -67,7 +67,7 @@ def login_post():
         return render_template('login.html', message='login failed')
 
 
-@app.route('/user_profile')
+@app.route('/')
 @authenticate
 def home(user):
     # authentication is done in the wrapper function
@@ -79,7 +79,7 @@ def home(user):
     # some fake product data
 
     username = request.form.get('name')
-    return render_template('user_profile.html', user=user, username=username)
+    return render_template('index.html', user=user, username=username)
 
 
 @app.route('/register', methods=['GET'])
