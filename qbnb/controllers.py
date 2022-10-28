@@ -67,7 +67,7 @@ def login_post():
         return render_template('login.html', message='login failed')
 
 
-@app.route('/')
+@app.route('/user_profile')
 @authenticate
 def home(user):
     # authentication is done in the wrapper function
