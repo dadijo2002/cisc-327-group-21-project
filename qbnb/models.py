@@ -31,6 +31,30 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+class listing(db.Model):
+    """
+    This class creates a Review object for use within our QB&B project
+    Attributes:
+        host (Integer): This serves as the review id
+        title (Integer): This serves as the user id
+        location (Integer): Serves as the id for the listing
+        price_per_night (Str): Serves as the content of the review itself
+        amenities(str): The date when the review was made
+        description(Str): A description of the listing
+        availability(Str): A string that says whether or
+        not a listing is available
+    """
+    host = db.Column(db.String(80), unique=True, nullable=False)
+    title = db.Column(db.String(80), unique=True, nullable=False)
+    location = db.Column(db.String(120), unique=True, nullable=False)
+    price_per_night = db.Column(db.Integer, primary_key=True)
+    amenities = db.Column(db.String(120), unique=True, nullable=False)
+    description = db.Column(db.String(2000), unique=True, nullable=False)
+    availability = db.Column(db.String(10), unique=True, nullable=False)
+    last_modified_date = db.Column(db.String(50), unique=True, nullable=False)
+    owner_email = db.Column(db.String(120), unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
 
 db.create_all()
 
@@ -260,31 +284,6 @@ def validate_username(username):
         return True
     else:
         return False
-
-
-class listing(db.Model):
-    """
-    This class creates a Review object for use within our QB&B project
-    Attributes:
-        host (Integer): This serves as the review id
-        title (Integer): This serves as the user id
-        location (Integer): Serves as the id for the listing
-        price_per_night (Str): Serves as the content of the review itself
-        amenities(str): The date when the review was made
-        description(Str): A description of the listing
-        availability(Str): A string that says whether or
-        not a listing is available
-    """
-    host = db.Column(db.String(80), unique=True, nullable=False)
-    title = db.Column(db.String(80), unique=True, nullable=False)
-    location = db.Column(db.String(120), unique=True, nullable=False)
-    price_per_night = db.Column(db.Integer, primary_key=True)
-    amenities = db.Column(db.String(120), unique=True, nullable=False)
-    description = db.Column(db.String(2000), unique=True, nullable=False)
-    availability = db.Column(db.String(10), unique=True, nullable=False)
-    last_modified_date = db.Column(db.String(50), unique=True, nullable=False)
-    owner_email = db.Column(db.String(120), unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
 def title_check(self):
