@@ -5,9 +5,11 @@
     <title>qBNB - User Profile</title>
 </head>
 <body>
+    <!--Greets user-->
     <h1>Welcome, {{ user.username }}!</h1>
     <button type="button", id="logoutbtn">Logout</button>
     <div>
+        <!--Buttons to access other pages-->
         <a href="listings_creation.html">
             <button type="button" id="newlstgbtn">Create New Listing</button>
         </a>
@@ -18,6 +20,8 @@
             <button type="button" id="updateprofilebtn">Update My Profile</button>
         </a>
     </div>
+    <!--Show existing products if any (using fake data because
+        real data was not working properly yet)-->
     <h2>Here are all available products</h2>
     <div id="products">
         {% for product in products %}

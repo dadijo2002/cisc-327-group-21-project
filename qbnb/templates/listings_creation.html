@@ -2,7 +2,7 @@
 <h4 id='message'>Create your listing here!</h4>
 <form method="post">
   <div class="form-group">
-
+    <!--Provide each field for listing info-->
     <p><label for="host">Host</label>  
       <input class="form-control" name="host" id="host" required>
     </p>
@@ -25,10 +25,12 @@
       <input class="form-control" name="desc" id="desc" required>
     </p>
     <p><label for="availability">Availability</label>  
+      <!--Set validity for dates-->
       <input type="date" class="form-control" name="startavail" id="startavail" min="2021-01-03" max="2024-12-31" required>
       <input type="date" class="form-control" name="endavail" id="endavail" min="2021-01-04" max="2025-01-01" required>
     </p>
     <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Finalize">
   </div>
 </form>
+<!--Option to return to home page-->
 <a href='index.html'>Home</a>
