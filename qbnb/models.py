@@ -2,11 +2,16 @@
 This program establishes the user/profile system for qBnb.
 Last Updated: October 28, 2022
 """
-from qbnb import app
+from datetime import date
+
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from email_validator import validate_email, EmailNotValidError
 
-
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+# ^ need to decide what database we connect to?
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
@@ -19,17 +24,16 @@ class User(db.Model):
     billing_address = db.Column(db.String(120), unique=True, nullable=False)
     postal_code = db.Column(db.String(6), unique=True, nullable=False)
     balance = db.Column(db.String(10), unique=True, nullable=False)
+
     # Create database column for each user attribute
 
     listings = db.relationship('listing', backref='user')
-    # bookings = db.relationship('booking', backref='User')
 
+    # bookings = db.relationship('booking', backref='User')
 
     # Make relationship with listings and booking databases
     # TODO: ensure listing and booking databases have corresponding code
 
-    def __repr__(self):
-        return '<User %r>' % self.username
 
 class listing(db.Model):
     """
@@ -54,6 +58,9 @@ class listing(db.Model):
     last_modified_date = db.Column(db.String(50), unique=True, nullable=False)
     owner_email = db.Column(db.String(120), unique=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return '<User %r>' % self.username
 
 
 db.create_all()
@@ -83,12 +90,10 @@ def login(username, password):
             return result[0]
 
 
-def update_username(self):
+def update_username(new_username):
     """
     This function updates the username of the user.
     """
-
-    new_username = input("New Username: ")
 
     # Check for proper username format
     if len(new_username) != 0 and new_username.isalnum():
@@ -98,7 +103,6 @@ def update_username(self):
 
         # Once validated, update username
         if result is None:
-            self.username = new_username
             print("Username successfully updated!")
 
         else:
@@ -116,63 +120,56 @@ def update_username(self):
 
                 # Once validated, update username
                 if result is None:
-                    self.username = new_username
                     print("Username successfully updated!")
         else:
             print("Invalid username format!")
 
 
-def update_email(self):
+def update_email(new_email):
     """
     This function updates the email of the user.
     """
-
-    new_email = input("New Email: ")
 
     # Check for proper email format
     if len(new_email) != 0:
         try:
             valid_email = validate_email(new_email)
             new_email = valid_email["email"]
+
         except:
             print("Invalid email format!")
-            return
+            return False
 
         # Check that no existing account already has this email address
         result = User.query.filter_by(email=new_email).first()
 
         # Once validated, update username
         if result is None:
-            self.email = new_email
-            print("Email successfully updated!")
+            return True
 
         else:
-            print("Email already associated with existing account!")
+            return False
 
     else:
-        print("Invalid email format!")
+        return False
 
 
-def update_address(self):
+def update_address(new_address):
     """
     This function updates the billing address of the user.
     """
-    new_address = input("New Address: ")
 
     # Check that an address has been entered
     if len(new_address) != 0:
-        self.billing_address = new_address
-        print("Address successfully updated!")
+        return True
     else:
-        print("Invalid address format!")
+        return False
 
 
-def update_postal_code(self):
+def update_postal_code(new_postal_code):
     """
     This function updates the postal code of the user.
     """
-
-    new_postal_code = input("New Postal Code: ")
 
     # Check for proper postal code format
     if len(new_postal_code) != 0 and new_postal_code.isalnum():
@@ -188,10 +185,54 @@ def update_postal_code(self):
             # TODO: Add more specific verification since not every
             # character/combination is used
 
-            self.postal_code = new_postal_code
-            print("Postal Code successfully updated!")
+            postal_code = new_postal_code
+            return True
     else:
-        print("Invalid postal code format!")
+        return False
+
+
+def validate(host, title, location, price_per_night, guests, amenities, description, availability):
+    """
+    This Function will check if a listing is valid
+    before adding it to the listing db.
+    If something is left blank, it will return false
+    as the listing is not valid. If all the fields
+    are filled, it will return true, as it is a valid listing.
+    """
+    if host == "" or title == "" or location == "" or \
+            price_per_night == "" or guests == "" or \
+            amenities == "" or description == "" \
+            or availability == "":
+        return False
+    else:
+
+        today = date.today()
+        year_today = str(today)[0:4]
+        month_today = str(today)[5:7]
+        day_today = str(today)[8:]
+
+        # ensure date is between/including Jan 3, 2021 and Jan 1, 2025
+        # per R4-6 and R5-3
+        if 2022 <= int(year_today) <= 2024:
+            if 1 <= int(month_today) <= 12:
+                if 1 <= int(day_today) <= 31:
+                    last_modified_date = str(today)
+
+        elif int(year_today) == 2021:
+
+            if int(month_today) == 1:
+                if 3 <= int(day_today) <= 31:
+                    last_modified_date = str(today)
+
+            elif 2 <= int(month_today) <= 12:
+                if 1 <= int(day_today) <= 31:
+                    last_modified_date = str(today)
+
+        elif int(year_today) == 2025 and int(month_today) == 1 and int(day_today) == 1:
+            last_modified_date = str(today)
+
+        # listing modification is valid, return True
+        return True
 
 
 def register(username, email, password):
@@ -346,3 +387,21 @@ def title_validation(self):
         return False
     else:
         return True
+
+
+def add_listing(host, title, location, price_per_night, guests, amenities, description, availability):
+    """
+    This Function will add a listing to the listing db.
+    It will check if the inputted listing is valid,
+    by calling the validate function,and if it
+    returns true, it will add the listing to the listing db.
+    """
+
+    if validate(host, title, location, price_per_night, guests, amenities, description, availability) is True:
+        db.Model.append(host, title, location,
+                        price_per_night,
+                        guests, amenities,
+                        description, availability)
+        return True
+    else:
+        return False

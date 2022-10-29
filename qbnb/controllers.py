@@ -1,5 +1,5 @@
 from flask import render_template, request, session, redirect
-from qbnb.models import login, User, register, listing, add_listing
+from qbnb.models import *
 
 from qbnb import app
 
@@ -51,12 +51,12 @@ def login_post():
     if user:
         session['logged_in'] = user.email
         """
-        Session is an object that contains sharing information
-        between a user's browser and the end server.
-        Typically it is packed and stored in the browser cookies.
-        They will be past along between every request the browser made
-        to this services. Here we store the user object into the
-        session, so we can tell if the client has already login
+        Session is an object that contains sharing information 
+        between a user's browser and the end server. 
+        Typically it is packed and stored in the browser cookies. 
+        They will be past along between every request the browser made 
+        to this services. Here we store the user object into the 
+        session, so we can tell if the client has already login 
         in the following sessions.
         """
         # success! go back to the home page
@@ -112,6 +112,33 @@ def register_post():
         return redirect('/login')
 
 
+# this is the route for the profile update page
+@app.route('/update_profile', methods=['POST'])
+def update_profile_get():
+    email = request.form.get('email')
+    name = request.form.get('name')
+    password = request.form.get('password')
+    password2 = request.form.get('password2')
+    billing_address = request.form.get('Billing Address')
+    postal_code = request.form.get('Postal')
+    error_message = None
+
+    if password != password2:
+        error_message = "The passwords do not match"
+    else:
+        # Update the user profile
+        success = update_email(email) or update_postal_code(postal_code) \
+                  or update_address(billing_address)
+        if not success:
+            error_message = "Update failed."
+    # if there is any error messages when updating the user profile
+    # at the backend, go back to the update profile page.
+    if error_message:
+        return render_template('update_profile.html', message=error_message)
+    else:
+        return redirect('/update_profile')
+
+
 @app.route('/logout')
 def logout():
     if 'logged_in' in session:
@@ -141,6 +168,6 @@ def listings_creation_post():
 
     if not success:
         return render_template('listing_creation.html',
-                                 message="listing creation failed")
+                               message="listing creation failed")
     else:
-	    return redirect('/')
+        return redirect('/')
