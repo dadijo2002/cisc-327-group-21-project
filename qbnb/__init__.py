@@ -9,8 +9,8 @@ package_dir = os.path.dirname(
     os.path.abspath(__file__)
 )
 
-templates = os.path.join(
-    package_dir, "templates"
+web_pages = os.path.join(
+    package_dir, "web_pages"
 )
 
 app = Flask(__name__)
