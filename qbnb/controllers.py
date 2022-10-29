@@ -61,7 +61,7 @@ def login_post():
         """
         # success! go back to the home page
         # code 303 is to force a 'GET' request
-        return redirect('index.html', code=303)
+        return redirect('index.html')
     else:
         return render_template('login.html', message='login failed')
 
