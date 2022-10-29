@@ -1,0 +1,36 @@
+<h1>Create Listing</h1>
+<h4 id='message'>Create your listing here!</h4>
+<form method="post">
+  <div class="form-group">
+    <!--Provide each field for listing info-->
+    <p><label for="host">Host</label>  
+      <input class="form-control" name="host" id="host" required>
+    </p>
+    <p><label for="title">Title</label>
+      <input class="form-control" name="title" id="title" required>
+    </p>
+    <p><label for="location">Location</label>  
+      <input class="form-control" name="location" id="location" required>
+    </p>
+    <p><label for="ppn">Price per night</label>  
+    <input class="form-control" name="ppn" id="ppn" required>
+    </p>
+    <p><label for="guests">Guests</label>  
+      <input class="form-control" name="guests" id="guests" required>
+    </p>
+    <p><label for="amenities">Amenities</label>   
+      <input class="form-control" name="amenities" id="amenities" required>
+    </p>
+    <p><label for="desc">Description</label>  
+      <input class="form-control" name="desc" id="desc" required>
+    </p>
+    <p><label for="availability">Availability</label>  
+      <!--Set validity for dates-->
+      <input type="date" class="form-control" name="startavail" id="startavail" min="2021-01-03" max="2024-12-31" required>
+      <input type="date" class="form-control" name="endavail" id="endavail" min="2021-01-04" max="2025-01-01" required>
+    </p>
+    <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Finalize">
+  </div>
+</form>
+<!--Option to return to home page-->
+<a href='index.html'>Home</a>

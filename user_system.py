@@ -82,8 +82,8 @@ class User(db.Model):
                 print("Invalid password format!")
 
         elif (" " in username and username[0] != " " and
-                username[-1] != " "):
-                temp_user = username.replace(" ", "")
+            username[-1] != " "):
+            temp_user = username.replace(" ", "")
 
             # If no special characters other than space and format allowed
             # Check that no existing account already has this username
@@ -142,9 +142,11 @@ class User(db.Model):
             if result == None:
                 self.username = new_username
                 print("Username successfully updated!")
+                return True
 
             else:
                 print("Username already taken!")
+                return False
         else:
             # factor in requirements about allowing spaces
             if (" " in new_username and new_username[0] != " " and
@@ -160,8 +162,12 @@ class User(db.Model):
                     if result == None:
                         self.username = new_username
                         print("Username successfully updated!")
+                        return True
+
+                    return False
             else:
                 print("Invalid username format!")
+                return False
 
     def update_email(self):
         """
@@ -177,7 +183,7 @@ class User(db.Model):
                 new_email = valid_email["email"]
             except:
                 print("Invalid email format!")
-                return
+                return False
 
             # Check that no existing account already has this email address
             result = User.query.filter_by(email=new_email).first()
@@ -186,12 +192,15 @@ class User(db.Model):
             if result == None:
                 self.email = new_email
                 print("Email successfully updated!")
+                return True
 
             else:
                 print("Email already associated with existing account!")
+                return False
 
         else:
             print("Invalid email format!")
+            return False
 
     def update_address(self):
         """
@@ -203,8 +212,10 @@ class User(db.Model):
         if len(new_address) != 0:
             self.billing_address = new_address
             print("Address successfully updated!")
+            return True
         else:
             print("Invalid address format!")
+            return False
 
     def update_postal_code(self):
         """
@@ -227,5 +238,7 @@ class User(db.Model):
 
                 self.postal_code = new_postal_code
                 print("Postal Code successfully updated!")
+                return True
         else:
             print("Invalid postal code format!")
+            return False
