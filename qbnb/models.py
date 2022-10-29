@@ -27,6 +27,7 @@ class User(db.Model):
     listings = db.relationship('listing', backref='User')
     bookings = db.relationship('booking', backref='User')
 
+
     # Make relationship with listings and booking databases
     # TODO: ensure listing and booking databases have corresponding code
 
@@ -283,6 +284,7 @@ class listing(db.Model):
     availability = db.Column(db.String(10), unique=True, nullable=False)
     last_modified_date = db.Column(db.String(50), unique=True, nullable=False)
     owner_email = db.Column(db.String(120), unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
 def title_check(self):
