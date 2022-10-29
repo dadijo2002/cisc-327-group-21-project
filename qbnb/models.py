@@ -35,6 +35,7 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+db.init_app(app)
 db.create_all()
 
 def login(username, password):
