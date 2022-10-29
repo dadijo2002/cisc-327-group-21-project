@@ -1,5 +1,5 @@
 from flask import render_template, request, session, redirect
-from qbnb.models import login, User, register, listing
+from qbnb.models import login, User, register, listing, add_listing
 
 from qbnb import app
 
@@ -51,12 +51,12 @@ def login_post():
     if user:
         session['logged_in'] = user.email
         """
-        Session is an object that contains sharing information 
-        between a user's browser and the end server. 
-        Typically it is packed and stored in the browser cookies. 
-        They will be past along between every request the browser made 
-        to this services. Here we store the user object into the 
-        session, so we can tell if the client has already login 
+        Session is an object that contains sharing information
+        between a user's browser and the end server.
+        Typically it is packed and stored in the browser cookies.
+        They will be past along between every request the browser made
+        to this services. Here we store the user object into the
+        session, so we can tell if the client has already login
         in the following sessions.
         """
         # success! go back to the home page
@@ -117,3 +117,30 @@ def logout():
     if 'logged_in' in session:
         session.pop('logged_in', None)
     return redirect('/')
+
+
+@app.route('/listings_creation', methods=['GET'])
+def listings_creation_get():
+    # templates are stored in the templates folder
+    return render_template('listings_creation.html', message='')
+
+
+@app.route('/listings_creation', methods=['POST'])
+def listings_creation_post():
+    host = request.form.get('host')
+    title = request.form.get('title')
+    location = request.form.get('location')
+    ppn = request.form.get('ppn')
+    guests = request.form.get('guests')
+    amenities = request.form.get('amenities')
+    desc = request.form.get('desc')
+    availability = request.form.get('availability')
+
+    success = add_listing(host, title, location, ppn, guests, amenities,
+                          desc, availability)
+
+    if not success:
+        return render_template('listing_creation.html',
+                                 message="listing creation failed")
+    else:
+	    return redirect('/')
