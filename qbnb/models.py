@@ -1,17 +1,13 @@
 """
 This program establishes the user/profile system for qBnb.
-Last Updated: October 11, 2022
+Last Updated: October 28, 2022
 """
-from flask import Flask
+from qbnb import app
 from flask_sqlalchemy import SQLAlchemy
 from email_validator import validate_email, EmailNotValidError
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-# ^ need to decide what database we connect to?
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
-db.init_app(app)
 
 
 class User(db.Model):
