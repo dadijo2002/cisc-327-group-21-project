@@ -25,7 +25,7 @@ class User(db.Model):
     # Create database column for each user attribute
 
     listings = db.relationship('listing', backref='User')
-    bookings = db.relationship('booking', backref='User')
+    # bookings = db.relationship('booking', backref='User')
 
 
     # Make relationship with listings and booking databases
