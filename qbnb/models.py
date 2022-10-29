@@ -24,7 +24,7 @@ class User(db.Model):
     balance = db.Column(db.String(10), unique=True, nullable=False)
     # Create database column for each user attribute
 
-    listings = db.relationship('listing', backref='User')
+    listings = db.relationship('listing', backref='user')
     # bookings = db.relationship('booking', backref='User')
 
 
