@@ -1,5 +1,5 @@
 from flask import render_template, request, session, redirect
-from qbnb.models import login, User, register, Listings
+from qbnb.models import login, User, register, listing
 
 from qbnb import app
 
