@@ -11,12 +11,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 # ^ need to decide what database we connect to?
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-db.init_app(app)
 
 
 class User(db.Model):
     """This class initializes the user data base"""
-
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -35,9 +33,6 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
-
-
-db.create_all()
 
 
 def login(username, password):
