@@ -2,3 +2,4 @@ Flask
 Flask-SQLAlchemy
 pytest
 flake8
+email_validator
