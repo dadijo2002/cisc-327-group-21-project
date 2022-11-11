@@ -16,7 +16,6 @@ class FrontEndHomePageTest(BaseCase):
         """
         Log in to start testing
         """
-        super(UpdateProductPageTest, self).setUp()
         self.open(base_url + "/login")
         self.type("#email", "test@grouptwentyone.ca")
         self.type("#password", "FUNpswd123?!")
