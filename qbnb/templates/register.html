@@ -1,30 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>qBNB-Register</title>
-</head>
-<h1>Register </h1>
-<h4 id='message'> <p>New to qbnb?</p> Register below!</h4>
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Register{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<h4 id='message'>{{message}}</h4>
 <form method="post">
   <div class="form-group">
-    <!--Fields to get user info-->
-    <p><label for="email">Email</label>
+    <label for="email">Email</label>
     <input class="form-control" name="email" id="email" required>
-    </p>
-    <p><label for="name">Username</label>
+    <label for="name">Name</label>
     <input class="form-control" name="name" id="name" required>
-    </p>
-    <p><label for="password">Password</label>
+    <label for="password">Password</label>
     <input class="form-control" type="password" name="password" id="password" required>
-    </p>
-    <p><label for="password">Confirm Password</label>
+    <label for="password">Confirm Password</label>
     <input class="form-control" type="password" name="password2" id="password2" required>
-    </p>
-    <p>
-      <!--Submit & register-->
-    <input class="btn-lg btn-primary" type="submit" value="Register">
-    </p>
-    <!--Go back to login page instead-->
-    <a href='login' class="btn btn-primary" id="btn-submit" >Login</a>
+    <input class="btn btn-primary" type="submit" value="Register">
+  <a href='/login' class="btn btn-primary" id="btn-submit" >Login</a>
   </div>
 </form>
+{% endblock %}
