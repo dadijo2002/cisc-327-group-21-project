@@ -30,6 +30,7 @@ class FrontEndHomePageTest(BaseCase):
     def test_cancelupdate(self):
         """
         Test when user cancels update
+        Test method: Black Box exhaustive output coverage (1 of 2)
         """
         self.click_link("Cancel")
         self.assert_equal(self.get_current_url(), base_url + "/")
@@ -37,6 +38,7 @@ class FrontEndHomePageTest(BaseCase):
     def test_successfulupdate(self):
         """
         Test that products can be updated successfully
+        Test method: Black Box exhaustive output coverage (2 of 2)
         """
         # test all fields can be modified
         self.type("#host", "Joe Mama")

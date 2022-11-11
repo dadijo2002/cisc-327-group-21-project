@@ -25,6 +25,7 @@ class FrontEndHomePageTest(BaseCase):
     def test_pageload(self):
         """
         Tests that the homepage loads properly.
+        Test method: Black Box exhaustive output coverage
         """
         self.open(base_url)
         self.assert_element("h1")
