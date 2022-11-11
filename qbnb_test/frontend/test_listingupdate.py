@@ -6,7 +6,7 @@ from qbnb.models import User
 
 # create test user and example listing
 register("test", "test@grouptwentyone.ca", "FUNpswd123?!")
-create_product("Joseph Mother", "New Listing", "1234 Sesame Street",
+create_listing("Joseph Mother", "New Listing", "1234 Sesame Street",
                 "6", "none :(", "This property is the best thing since sliced bread!", 
                 "2022-06-09", "2023-04-20")
 
