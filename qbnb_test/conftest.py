@@ -4,6 +4,7 @@ from qbnb import app
 '''
 This file defines what to do BEFORE running any test cases:
 '''
+base_url = '127.0.0.1:8081'
 
 
 def pytest_sessionstart():
