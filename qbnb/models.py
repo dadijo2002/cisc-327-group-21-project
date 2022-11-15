@@ -3,15 +3,16 @@ This program establishes the user/profile system for qBnb.
 Last Updated: October 28, 2022
 """
 from datetime import date
+from qbnb import app
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from email_validator import validate_email, EmailNotValidError
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-# ^ need to decide what database we connect to?
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app = Flask(__name__)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+# # ^ need to decide what database we connect to?
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
@@ -23,7 +24,7 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=True, nullable=False)
     billing_address = db.Column(db.String(120), unique=True, nullable=False)
     postal_code = db.Column(db.String(6), unique=True, nullable=False)
-    balance = db.Column(db.String(10), unique=True, nullable=False)
+    balance = db.Column(db.Integer(), unique=True, nullable=False)
 
     # Create database column for each user attribute
 
@@ -66,7 +67,8 @@ class listing(db.Model):
 db.create_all()
 
 
-def login(username, password):
+def login(email, password):
+    # TODO change to email
     """
     This function validates username and password before login is
     completed.
@@ -77,16 +79,16 @@ def login(username, password):
     """
     # TODO: find some way to obscure passwords at login?
 
-    if verify_password(password) and validate_username(username):
+    if verify_password(password):
         result = User.query. \
-            filter_by(username=username, password=password).all()
+            filter_by(email=email, password=password).all()
 
         # check to see if the search got precisely one result
         if len(result) != 1:
             print("User not found, maybe try to register first?")
             return None
         else:
-            print("Login successful! Welcome back, " + username + "!")
+            print("Login successful! Welcome back, " + email + "!")
             return result[0]
 
 
@@ -307,7 +309,7 @@ def verify_password(password):
         elif not char.isalnum():
             special_check += 1
 
-    if (len(password) >= 6 and password.isalnum() and caps_check >= 1 and
+    if (len(password) >= 6 and caps_check >= 1 and
             lower_check >= 1 and num_check >= 1 and special_check >= 1):
         return True
     else:
