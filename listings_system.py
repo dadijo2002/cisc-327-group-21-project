@@ -74,7 +74,8 @@ class Listings(db.Model):  # SQLified the old Listings class a little bit
                     if int(day_today) >= 1 and int(day_today) <= 31:
                         self.last_modified_date = str(today)
 
-            elif int(year_today) == 2025 and int(month_today) == 1 and int(day_today) == 1:
+            elif int(year_today) == 2025 and int(month_today) == 1 \
+                    and int(day_today) == 1:
                 self.last_modified_date = str(today)
 
             # listing modification is valid, return True
@@ -138,8 +139,8 @@ class Listings(db.Model):  # SQLified the old Listings class a little bit
             self.location = input("Enter the new location: ")
         elif choice == "4":
             self.price_per_night += input(
-                "User can only increase this value, Enter the amount you would \
-                 like to increase the price by: ")
+                "User can only increase this value, Enter the \
+                    amount you would like to increase the price by: ")
         elif choice == "5":
             self.guests = input("Enter the new amount of guests: ")
         elif choice == "6":

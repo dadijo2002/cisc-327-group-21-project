@@ -4,7 +4,6 @@ Contains the backend testing functions
 from qbnb.models import User, register, login
 
 
-
 # Register tests
 def test_r1_1_user_register():
     """
