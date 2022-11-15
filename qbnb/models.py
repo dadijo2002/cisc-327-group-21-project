@@ -80,7 +80,7 @@ def login(email, password):
     """
     # TODO: find some way to obscure passwords at login?
 
-    if verify_password(password):
+    if verify_password(password) and verify_email(email):
         result = User.query. \
             filter_by(email=email, password=password).all()
 
