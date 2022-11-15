@@ -30,6 +30,7 @@ class test_profile_update(BaseCase):
     def test_successful_profile_update(self, *_):
         """
         Test that a user can successfully update their profile.
+        Test method: Black Box input coverage - input partitioning
         """
         # update profile
         self.type("#email", "yasho@gmail.com")
@@ -44,6 +45,7 @@ class test_profile_update(BaseCase):
         """
         Test that a user cannot update their profile with invalid inputs.
         did not follow email rules
+        Test method: Black Box input coverage - input partitioning
         """
         # invalid email
         self.type("#email", "yashoatgmail.com")
@@ -61,6 +63,7 @@ class test_profile_update(BaseCase):
         """
         Test that a user cannot update their profile with invalid inputs.
         did not follow name rules
+        Test method: Black Box input coverage - input partitioning
         """
         # invalid email
         self.type("#email", "yashoatgmail.com")
@@ -78,6 +81,7 @@ class test_profile_update(BaseCase):
         """
         Test that a user cannot update their profile with invalid inputs.
         did not follow password rules
+        Test method: Black Box input coverage - input partitioning
         """
         # invalid email
         self.type("#email", "yashoatgmail.com")
@@ -95,6 +99,7 @@ class test_profile_update(BaseCase):
         """
         Test that a user cannot update their profile with invalid inputs.
         incorrect confirm password
+        Test method: Black Box input coverage - input partitioning
         """
         # invalid email
         self.type("#email", "yashoatgmail.com")
@@ -112,6 +117,7 @@ class test_profile_update(BaseCase):
         """
         Test that a user cannot update their profile with invalid inputs.
         incorrect billing address
+        Test method: Black Box input coverage - input partitioning
         """
         # invalid email
         self.type("#email", "yashoatgmail.com")
@@ -129,6 +135,7 @@ class test_profile_update(BaseCase):
         """
         Test that a user cannot update their profile with invalid inputs.
         incorrect postal code
+        Test method: Black Box input coverage - input partitioning
         """
         # invalid email
         self.type("#email", "yashoatgmail.com")
@@ -146,6 +153,7 @@ class test_profile_update(BaseCase):
         """
         Test that a user cannot update their profile with invalid inputs.
         incorrect postal code RULE - must be canadian
+        Test method: Black Box input coverage - input partitioning
         """
         # invalid email
         self.type("#email", "yashoatgmail.com")
@@ -163,6 +171,7 @@ class test_profile_update(BaseCase):
         """
         Test that a user cannot update their profile with invalid inputs.
         incorrect username rule - must be alphanumeric
+        Test method: Black Box input coverage - input partitioning
         """
         # invalid email
         self.type("#email", "yashoatgmail.com")
