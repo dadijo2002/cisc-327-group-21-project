@@ -4,31 +4,33 @@
   <div class="form-group">
     <!--Provide each field for listing info-->
     <p><label for="host">Host</label>  
-      <input class="form-control" name="host" id="host">
+      <input class="form-control" name="host" id="host" required>
       <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Update!">
     </p>
     <p><label for="title">Title</label>
-      <input class="form-control" name="title" id="title">
+      <input class="form-control" name="title" id="title" required>
       <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Update!">
     </p>
     <p><label for="location">Location</label>  
-      <input class="form-control" name="location" id="location">
+      <input class="form-control" name="location" id="location" required>
       <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Update!">
     </p>
     <p><label for="ppn">Price per night</label>  
-      <input class="form-control" name="ppn" id="ppn">
+      <input class="form-control" name="ppn" id="ppn" required>
       <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Update!">
     </p>
     <p><label for="guests">Guests</label>  
-      <input class="form-control" name="guests" id="guests">
+      <input class="form-control" name="guests" id="guests" required>
       <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Update!">
     </p>
     <p><label for="amenities">Amenities</label>   
-      <input class="form-control" name="amenities" id="amenities">
+      <input class="form-control" name="amenities" id="amenities" oninvalid="this.setCustomValidity('Date range was invalid! Please try again.')"
+      oninput="this.setCustomValidity('')" required>
       <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Update!">
     </p>
     <p><label for="desc">Description</label>  
-      <input class="form-control" name="desc" id="desc">
+      <input class="form-control" name="desc" id="desc" oninvalid="this.setCustomValidity('Date range was invalid! Please try again.')"
+      oninput="this.setCustomValidity('')" required>
       <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Update!">
     </p>
     <p><label for="availability">Availability</label>  
