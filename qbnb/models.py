@@ -23,8 +23,8 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
     billing_address = db.Column(db.String(120), unique=True, nullable=False)
-    postal_code = db.Column(db.String(6), unique=True, nullable=False)
-    balance = db.Column(db.Integer(), unique=True, nullable=False)
+    postal_code = db.Column(db.String(6), nullable=False)
+    balance = db.Column(db.Integer(), nullable=False)
 
     # Create database column for each user attribute
 
@@ -49,15 +49,16 @@ class listing(db.Model):
         availability(Str): A string that says whether or
         not a listing is available
     """
-    host = db.Column(db.String(80), unique=True, nullable=False)
-    title = db.Column(db.String(80), unique=True, nullable=False)
+    host = db.Column(db.String(80), nullable=False)
+    title = db.Column(db.String(80), unique=True, nullable=False, primary_key=True)
     location = db.Column(db.String(120), unique=True, nullable=False)
-    price_per_night = db.Column(db.Integer, primary_key=True)
-    amenities = db.Column(db.String(120), unique=True, nullable=False)
-    description = db.Column(db.String(2000), unique=True, nullable=False)
-    availability = db.Column(db.String(10), unique=True, nullable=False)
-    last_modified_date = db.Column(db.String(50), unique=True, nullable=False)
-    owner_email = db.Column(db.String(120), unique=True, nullable=False)
+    guests = db.Column(db.Integer, nullable=False)
+    price_per_night = db.Column(db.Integer, nullable=False)
+    amenities = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.String(2000), nullable=False)
+    availability = db.Column(db.String(10), nullable=False)
+    last_modified_date = db.Column(db.String(50), nullable=False)
+    owner_email = db.Column(db.String(120), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
@@ -79,7 +80,7 @@ def login(email, password):
     """
     # TODO: find some way to obscure passwords at login?
 
-    if verify_password(password):
+    if verify_password(password) and verify_email(email):
         result = User.query. \
             filter_by(email=email, password=password).all()
 
@@ -407,3 +408,28 @@ def add_listing(host, title, location, price_per_night, guests, amenities, descr
         return True
     else:
         return False
+
+
+
+"""
+def update_listing(listing, host, title, location, price_per_night, guests, amenities, description, availability):
+    '''
+    This Function will add a listing to the listing db.
+    It will check if the inputted listing is valid,
+    by calling the validate function,and if it
+    returns true, it will add the listing to the listing db.
+    '''
+
+    if validate(host, title, location, price_per_night, guests, amenities, description, availability) is True:
+        db.Model.append(host, title, location,
+                        price_per_night,
+                        guests, amenities,
+                        description, availability)
+        return True
+    else:
+        return False
+
+# TODO: change so it updates listing
+# add ID system for listings?
+
+"""

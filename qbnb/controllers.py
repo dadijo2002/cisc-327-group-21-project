@@ -171,3 +171,32 @@ def listings_creation_post():
                                message="listing creation failed")
     else:
         return redirect('/')
+
+"""
+@app.route('/listings_update', methods=['GET'])
+def listings_creation_get():
+    # templates are stored in the templates folder
+    return render_template('listings_update.html', message='')
+
+#TODO: Finish this
+
+@app.route('/listings_creation', methods=['POST'])
+def listings_update_post():
+    host = request.form.get('host')
+    title = request.form.get('title')
+    location = request.form.get('location')
+    ppn = request.form.get('ppn')
+    guests = request.form.get('guests')
+    amenities = request.form.get('amenities')
+    desc = request.form.get('desc')
+    availability = request.form.get('availability')
+
+    success = update_listing(host, title, location, ppn, guests, amenities,
+                          desc, availability)
+
+    if not success:
+        return render_template('listing_creation.html',
+                               message="listing creation failed")
+    else:
+        return redirect('/')
+"""
