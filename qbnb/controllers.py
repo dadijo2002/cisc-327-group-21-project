@@ -1,7 +1,7 @@
-from flask import render_template, request, session, redirect
-from qbnb.models import *
+from flask import redirect, render_template, request, session
 
 from qbnb import app
+from qbnb.models import *
 
 
 def authenticate(inner_function):
