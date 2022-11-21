@@ -15,20 +15,48 @@ class FrontEndHomePageTest(BaseCase):
         """
         Log in to start testing
         """
-        # do we need to do this?
+        # open register page
+        self.open(base_url + '/register')
+        # fill email, username, password and password2
+        self.type("#email", "test@grouptwentyone.ca")
+        self.type("#name", "test")
+        self.type("#password", "FUNpswd123?!")
+        self.type("#password2", "FUNpswd123?!")
 
-        # create test user and example listing
-        register("test", "test@grouptwentyone.ca", "FUNpswd123?!")
-        create_listing("Joseph Mother", "New Listing", "1234 Sesame Street",
-                        "6", "none :(", "This property is the best thing since sliced bread!", 
-                        "2022-06-09", "2023-04-20")
+        # click Register button
+        self.click('input[type="submit"]')
 
-        # simulate login
-        self.open(base_url + "/login")
+        # open login page
+        self.open(base_url + '/login')
+        # test if the page loads correctly
+        self.assert_element("#message")
+        self.assert_text("Please login", "#message")
+
         self.type("#email", "test@grouptwentyone.ca")
         self.type("#password", "FUNpswd123?!")
-        self.click("input[type=\"submit\"]")
-        self.click_link("update")
+        self.click('input[type="submit"]')
+
+        self.open(base_url)
+        self.assert_element("#welcome_header")
+        self.assert_text("Welcome test !", "welcome-header")
+
+        # Open the listing creation page so there is something
+        # to actually test
+        self.open(base_url + "/listings_creation")
+        # Fill host, title, location, ppn, guests,
+        # amenities, desc, availability
+        self.type("#host", "Joseph Mother")
+        self.type("#title", "New Listing")
+        self.type("#location", "1234 Sesame Street")
+        self.type("#ppn", "100")
+        self.type("#guests", "6")
+        self.type("#amenities", "none :(")
+        self.type("#desc", "This property is the best thing since sliced bread!")
+        self.type("#startavail", "2022-06-09")
+        self.type("#endavail", "2023-04-20")
+
+        # Click the submit button
+        self.click('input[type="submit"]')
 
     def test_cancelupdate(self, *_):
         """
