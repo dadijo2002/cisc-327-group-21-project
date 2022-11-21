@@ -1,8 +1,8 @@
 from seleniumbase import BaseCase
 
-from qbay_test.conftest import base_url
+from qbnb_test.conftest import base_url
 from unittest.mock import patch
-from qbay.models import User
+from qbnb.models import User
 
 """
 This file defines all integration tests for the frontend register page.

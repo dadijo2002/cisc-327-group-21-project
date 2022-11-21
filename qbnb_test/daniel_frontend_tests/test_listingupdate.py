@@ -224,7 +224,7 @@ class FrontEndHomePageTest(BaseCase):
         # test error if address name too long
         self.type("#host", "Joe Mama")
         self.type("#title", "Newer Product")
-        self.type("#location", "1273 Rockefeller Street"))
+        self.type("#location", "1273 Rockefeller Street")
         self.type("#guests", "5")
         # 121 character input
         self.type("#amenities", 
