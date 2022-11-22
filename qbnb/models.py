@@ -250,9 +250,9 @@ def register(username, email, password):
 
     """
 
-    if validate_username:  # username vaild (r1-5, r1-6)
-        if verify_password:  # password vaild (r1-4)
-            if verify_email:  # email vaild (r1-3)
+    if validate_username(username):  # username vaild (r1-5, r1-6)
+        if verify_password(password):  # password vaild (r1-4)
+            if verify_email(email):  # email vaild (r1-3)
                 # check if the email has been used: (r1-7)
                 existed = User.query.filter_by(email=email).all()
                 if len(existed) > 0:
