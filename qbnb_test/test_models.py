@@ -59,7 +59,7 @@ def test_r1_7_user_register():
     assert register('u1', 'test0@test.com', 'Aa123_') is False
 
 
-def test_r1_8_user_register(self):
+def test_r1_8_user_register():
     """
     Testing R1-8: Shipping address is empty at the time of registration.
     """
