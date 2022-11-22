@@ -369,7 +369,7 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#location", "1273 Rockefeller Street")
         self.type("#guests", "5")
         # empty amenities list
-        self.type("#amenities", ")
+        self.type("#amenities", "")
         self.type("#description", "This property is better than sliced bread!")
         self.type("#ppn", "100")
         self.type("#startavail", "2023-03-19")

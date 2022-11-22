@@ -45,6 +45,6 @@ class FrontEndHomePageTest(BaseCase):
         self.open(base_url)
         self.assert_element("h1")
         self.assert_element("h2")
-        self.assert_element("h4") # i think we skipped h3 oops
+        self.assert_element("h4")  # i think we skipped h3 oops
         self.assert_text("Welcome, test!", "h1")
         self.assert_text("Here are all available products", "h2")
