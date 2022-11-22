@@ -244,7 +244,7 @@ class FrontEndHomePageTest(BaseCase):
         # test error if description name too long
         self.type("#host", "Joe Mama")
         self.type("#title", "Newer Product")
-        self.type("#location", "1273 Rockefeller Street"))
+        self.type("#location", "1273 Rockefeller Street")
         self.type("#guests", "5")
         self.type("#amenities", "Sliced Bread, Baked Beans, and a nice view")
         # 2001 character input
