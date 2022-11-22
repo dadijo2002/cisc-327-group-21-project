@@ -11,7 +11,7 @@ This file defines all integration tests for the frontend homepage.
 
 class FrontEndHomePageTest(BaseCase):
 
-    def setup(self, *-):
+    def setup(self, *_):
         """
         Log in to start testing
         """
