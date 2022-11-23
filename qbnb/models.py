@@ -136,7 +136,7 @@ def update_email(new_email):
     # Check for proper email format
     if len(new_email) != 0:
         try:
-            valid_email = email_validator.validate_email(new_email)
+            valid_email = validate_email(new_email).email
             new_email = valid_email["email"]
 
         except:
@@ -252,7 +252,7 @@ def register(username, email, password):
 
     if validate_username(username):  # username vaild (r1-5, r1-6)
         if verify_password(password):  # password vaild (r1-4)
-            if email_validator.validate_email(email):  # email vaild (r1-3)
+            if validate_email(email).email:  # email vaild (r1-3)
                 if verify_email(email):  # email vaild (r1-3)
                     # check if the email has been used: (r1-7)
                     existed = User.query.filter_by(email=email).all()
@@ -281,7 +281,7 @@ def verify_email(email):
 
     if len(email) != 0:
         try:
-            valid_email = email_validator.validate_email(email)
+            valid_email = validate_email(email).email
             email = valid_email["email"]
         except:
             EmailNotValidError
