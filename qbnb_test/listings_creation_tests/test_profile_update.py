@@ -1,8 +1,8 @@
 from seleniumbase import BaseCase
 
-from qbay_test.conftest import base_url
+from qbnb_test.conftest import base_url
 from unittest.mock import patch
-from qbay.models import User
+from qbnb.models import User
 
 """
 This file defines all integration tests for the profile update page.
@@ -18,7 +18,22 @@ class test_profile_update(BaseCase):
         # do we need to do this?
 
         # create test user
-        register("test", "test@grouptwentyone.ca", "FUNpswd123?!")
+        # open register page
+        self.open(base_url + '/register')
+        # fill email, username, password and password2
+        self.type("#email", "test@grouptwentyone.ca")
+        self.type("#name", "test")
+        self.type("#password", "FUNpswd123?!")
+        self.type("#password2", "FUNpswd123?!")
+
+        # click Register button
+        self.click('input[type="submit"]')
+
+        # open login page
+        self.open(base_url + '/login')
+        # test if the page loads correctly
+        self.assert_element("#message")
+        self.assert_text("Please login", "#message")
 
         # simulate login
         self.open(base_url + "/login")

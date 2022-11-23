@@ -136,7 +136,7 @@ def update_email(new_email):
     # Check for proper email format
     if len(new_email) != 0:
         try:
-            valid_email = validate_email(new_email)
+            valid_email = validate_email(new_email).email
             new_email = valid_email["email"]
 
         except:
@@ -250,9 +250,9 @@ def register(username, email, password):
 
     """
 
-    if validate_username:  # username vaild (r1-5, r1-6)
-        if verify_password:  # password vaild (r1-4)
-            if verify_email:  # email vaild (r1-3)
+    if validate_username(username) == True:  # username vaild (r1-5, r1-6)
+        if verify_password(password) == True:  # password vaild (r1-4)
+            if verify_email(email) == True:  # email vaild (r1-3)
                 # check if the email has been used: (r1-7)
                 existed = User.query.filter_by(email=email).all()
                 if len(existed) > 0:
@@ -260,13 +260,14 @@ def register(username, email, password):
 
                 # create a new user
                 user = User(username=username, email=email, password=password,
-                            billing_address="", postal_code="", balance=100)
+                            billing_address=" ", postal_code=" ", balance=100)
                 # add it to the current database session
                 db.session.add(user)
                 # actually save the user object
                 db.session.commit()
+                return True
 
-    return True
+    return False
 
 
 def verify_email(email):
@@ -280,10 +281,11 @@ def verify_email(email):
 
     if len(email) != 0:
         try:
-            valid_email = validate_email(email)
+            valid_email = validate_email(email).email
             email = valid_email["email"]
+            return True
         except:
-            EmailNotValidError
+            return False
 
 
 def verify_password(password):
@@ -324,7 +326,7 @@ def validate_username(username):
     # This function serves to satisfy requirements R1-5 and R1-6
     if username != "" and username.isalnum() \
             and not (username.find(" ") == 0 or
-                     username.find(" ") == username.length):
+                     username.find(" ") == len(username)):
         return True
     else:
         return False
@@ -337,7 +339,7 @@ def title_check(self):
     # This serves to satisfy requirements R4-1 and R4-2
     if self.title.isalnum() and \
             (self.title.find(" ") == 0 or
-             self.title.find(" ") == self.username.length) \
+             self.title.find(" ") == len(self.username)) \
             and len(self.title) <= 80:
         return True
     else:
