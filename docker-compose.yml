@@ -27,7 +27,7 @@ services:
       - qbnb-site
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: darkishlocket10/qbnb_mady
     depends_on: 
       - qbnb-db
     environment:
