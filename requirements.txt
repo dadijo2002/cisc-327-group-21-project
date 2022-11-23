@@ -2,5 +2,6 @@ Flask
 Flask-SQLAlchemy
 pytest
 flake8
+pymysql
 email_validator
 seleniumbase
