@@ -136,7 +136,7 @@ def update_email(new_email):
     # Check for proper email format
     if len(new_email) != 0:
         try:
-            valid_email = validate_email(new_email)
+            valid_email = email_validator.validate_email(new_email)
             new_email = valid_email["email"]
 
         except:
@@ -252,19 +252,20 @@ def register(username, email, password):
 
     if validate_username(username):  # username vaild (r1-5, r1-6)
         if verify_password(password):  # password vaild (r1-4)
-            if verify_email(email):  # email vaild (r1-3)
-                # check if the email has been used: (r1-7)
-                existed = User.query.filter_by(email=email).all()
-                if len(existed) > 0:
-                    return False
+            if email_validator.validate_email(email):  # email vaild (r1-3)
+                if verify_email(email):  # email vaild (r1-3)
+                    # check if the email has been used: (r1-7)
+                    existed = User.query.filter_by(email=email).all()
+                    if len(existed) > 0:
+                        return False
 
-                # create a new user
-                user = User(username=username, email=email, password=password,
-                            billing_address="", postal_code="", balance=100)
-                # add it to the current database session
-                db.session.add(user)
-                # actually save the user object
-                db.session.commit()
+                    # create a new user
+                    user = User(username=username, email=email, password=password,
+                                billing_address=" ", postal_code=" ", balance=100)
+                    # add it to the current database session
+                    db.session.add(user)
+                    # actually save the user object
+                    db.session.commit()
 
     return True
 
@@ -280,7 +281,7 @@ def verify_email(email):
 
     if len(email) != 0:
         try:
-            valid_email = validate_email(email)
+            valid_email = email_validator.validate_email(email)
             email = valid_email["email"]
         except:
             EmailNotValidError

@@ -64,7 +64,7 @@ def test_r1_8_user_register():
     Testing R1-8: Shipping address is empty at the time of registration.
     """
     user = User.query.filter_by(username='u0').first()
-    assert (user.billing_address == "") is True
+    assert (user.billing_address == " ") is True
 
 
 def test_r1_9_user_register():
@@ -72,7 +72,7 @@ def test_r1_9_user_register():
     Testing R1-9: Postal code is empty at the time of registration.
     """
     user = User.query.filter_by(username='u0').first()
-    assert (user.postal_code == "") is True
+    assert (user.postal_code == " ") is True
 
 
 def test_r1_6_user_register():
@@ -81,4 +81,4 @@ def test_r1_6_user_register():
     registration. (free $100 dollar signup bonus).
     """
     user = User.query.filter_by(username='u0').first()
-    assert (user.postal_code == "") is True
+    assert (user.balance == 100) is True
