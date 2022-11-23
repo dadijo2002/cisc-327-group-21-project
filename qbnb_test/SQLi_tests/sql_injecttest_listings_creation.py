@@ -12,6 +12,11 @@ class MyTestCase(unittest.TestCase):
 
 
 def test_host():
+    """
+    A function that injects an
+    sql injection payload into the
+    host parameter of the add_listing function
+    """
     i_file = open("Generic_SQLi.txt")
     payloads = i_file.readlines()
     for payload in payloads:
@@ -27,6 +32,11 @@ def test_host():
 
 
 def test_title():
+    """
+    A function that injects an
+    sql injection payload into the
+    title parameter of the add_listing function
+    """
     i_file = open("Generic_SQLi.txt")
     payloads = i_file.readlines()
     for payload in payloads:
@@ -42,6 +52,11 @@ def test_title():
 
 
 def test_location():
+    """
+    A function that injects an
+    sql injection payload into the
+    location parameter of the add_listing function
+    """
     i_file = open("Generic_SQLi.txt")
     payloads = i_file.readlines()
     for payload in payloads:
@@ -56,6 +71,11 @@ def test_location():
 
 
 def test_ppn():
+    """
+    A function that injects an
+    sql injection payload into the
+    price per night parameter of the add_listing function
+    """
     i_file = open("Generic_SQLi.txt")
     payloads = i_file.readlines()
     for payload in payloads:
@@ -71,6 +91,11 @@ def test_ppn():
 
 
 def test_guests():
+    """
+    A function that injects an
+    sql injection payload into the
+    no. of guests parameter of the add_listing function
+    """
     i_file = open("Generic_SQLi.txt")
     payloads = i_file.readlines()
     for payload in payloads:
@@ -86,6 +111,11 @@ def test_guests():
 
 
 def test_amenities():
+    """
+    A function that injects an
+    sql injection payload into the
+    amenities parameter of the add_listing function
+    """
     i_file = open("Generic_SQLi.txt")
     payloads = i_file.readlines()
     for payload in payloads:
@@ -101,6 +131,11 @@ def test_amenities():
 
 
 def test_description():
+    """
+    A function that injects an
+    sql injection payload into the
+    description parameter of the add_listing function
+    """
     i_file = open("Generic_SQLi.txt")
     payloads = i_file.readlines()
     for payload in payloads:
@@ -114,6 +149,11 @@ def test_description():
 
 
 def test_availability():
+    """
+    A function that injects an
+    sql injection payload into the
+    availability parameter of the add_listing function
+    """
     i_file = open("Generic_SQLi.txt")
     payloads = i_file.readlines()
     for payload in payloads:
