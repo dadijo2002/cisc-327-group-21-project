@@ -252,21 +252,20 @@ def register(username, email, password):
 
     if validate_username(username) == True:  # username vaild (r1-5, r1-6)
         if verify_password(password) == True:  # password vaild (r1-4)
-            if validate_email(email).email == True:  # email vaild (r1-3)
-                if verify_email(email) == True:  # email vaild (r1-3)
-                    # check if the email has been used: (r1-7)
-                    existed = User.query.filter_by(email=email).all()
-                    if len(existed) > 0:
-                        return False
+            if verify_email(email) == True:  # email vaild (r1-3)
+                # check if the email has been used: (r1-7)
+                existed = User.query.filter_by(email=email).all()
+                if len(existed) > 0:
+                    return False
 
-                    # create a new user
-                    user = User(username=username, email=email, password=password,
-                                billing_address=" ", postal_code=" ", balance=100)
-                    # add it to the current database session
-                    db.session.add(user)
-                    # actually save the user object
-                    db.session.commit()
-                    return True
+                # create a new user
+                user = User(username=username, email=email, password=password,
+                            billing_address=" ", postal_code=" ", balance=100)
+                # add it to the current database session
+                db.session.add(user)
+                # actually save the user object
+                db.session.commit()
+                return True
 
     return False
 
@@ -284,8 +283,9 @@ def verify_email(email):
         try:
             valid_email = validate_email(email).email
             email = valid_email["email"]
+            return True
         except:
-            EmailNotValidError
+            return False
 
 
 def verify_password(password):
