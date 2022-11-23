@@ -266,8 +266,9 @@ def register(username, email, password):
                     db.session.add(user)
                     # actually save the user object
                     db.session.commit()
+                    return True
 
-    return True
+    return False
 
 
 def verify_email(email):
