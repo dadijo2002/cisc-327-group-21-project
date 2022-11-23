@@ -324,7 +324,7 @@ def validate_username(username):
     # This function serves to satisfy requirements R1-5 and R1-6
     if username != "" and username.isalnum() \
             and not (username.find(" ") == 0 or
-                     username.find(" ") == username.length):
+                     username.find(" ") == len(username)):
         return True
     else:
         return False
@@ -337,7 +337,7 @@ def title_check(self):
     # This serves to satisfy requirements R4-1 and R4-2
     if self.title.isalnum() and \
             (self.title.find(" ") == 0 or
-             self.title.find(" ") == self.username.length) \
+             self.title.find(" ") == len(self.username)) \
             and len(self.title) <= 80:
         return True
     else:
