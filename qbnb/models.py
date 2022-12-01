@@ -57,6 +57,7 @@ class listing(db.Model):
     amenities = db.Column(db.String(120), nullable=False)
     description = db.Column(db.String(2000), nullable=False)
     availability = db.Column(db.String(10), nullable=False)
+    # unavailability = db.Column(db.lis)
     last_modified_date = db.Column(db.String(50), nullable=False)
     owner_email = db.Column(db.String(120), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -64,10 +65,247 @@ class listing(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
+class Transaction(db.Model):
+  
+  id = db.Column(db.Integer, primary_key=True)
+  start_date = db.Column(db.Integer, nullable=False)
+  end_date = db.Column(db.Integer, nullable=False)
+
+  renter = db.relationship('renter', backref='user')
+  seller = db.relationship('seller', backref='user')
+  property = db.relationship('property', backref='listing')
+
+#   def __init__(self, user, listing_info):
+#     self.user = user # user specific info
+#     self.username = user.username
+#     self.balance = user.balance
+#     self.unit_cost = listing_info.cost
+#     self.unit_name = listing_info.name
+#     self.unit_id = listing_info.id
+#     self.seller_name = listing_info.seller
+#     self.availability = listing_info.availability
+#     self.validity = False
+    # default is False so that errors can be recognized later if any exist
+
+    # TODO: Figure out how to connect to other databases to get information,
+    # remove user.x and listing_info.x and replace with database info
 
 db.create_all()
 
+def check_balance(user_balance, listing_price_per_night, number_of_nights):
+    """
+    This function ensures that the user's balance is great enough
+    to afford the rental before the transaction goes through.
+    """
 
+    if user_balance >= (listing_price_per_night * number_of_nights):
+      return True
+    else:
+      return False
+
+
+def check_avail(self):
+    """
+    This function will reference a list of bookings once implemented
+    to ensure that the property is available for rental on the selected
+    dates.
+    """
+
+    if self.availability == True:
+      self.validity = True
+    else:
+      self.validity = False
+      # will later send an error that property isn't available on
+      # selected date(s)
+
+def check_dates(start_date, end_date):
+    """
+    This function checks the validity of the requested start and
+    end dates of the rental as defined by the user.
+    """
+    
+    todays_date = str(date.today())
+    today = int(todays_date.replace("-", ""))
+    
+    thirty_days = [4, 6, 9, 11]
+    thirtyone_days = [1, 3, 5, 7, 8, 10, 12]
+    FEB = 2
+
+    if  int(str(start_date)[:4]) <2021 or  int(str(end_date)[:4]> 2025):
+        return False
+    if start_date > end_date:
+      # check the start date occurs before the end date
+      return False
+      # will later send an error saying invalid dates were chosen
+    else:
+      if len(str(start_date)) != 8 or len(str(end_date)) != 8:
+        # check that the full dates were entered
+        return False
+        # will later send an error saying invalid dates were chosen
+
+      elif start_date <= today:
+        # check that the start date is in the future
+        return False
+        # will later send an error saying dates must be in the future
+
+      elif (int(str(start_date)[4:6]) < 1 or
+        int(str(start_date)[4:6]) > 12):
+        # check that a valid month was used in both dates
+        return False
+
+      elif (int(str(start_date)[6:]) < 1 or
+        int(str(start_date)[6:]) > 31):
+        # check that a valid day was used in both dates
+        # (more specific checks occur later)
+        return False
+
+      elif (int(str(end_date)[6:]) > int(str(start_date)[6:]) and
+        int(str(end_date)[4:6]) == int(str(start_date)[4:6]) + 1):
+        # ensure that end date is no more than 1 month after start date
+        # (measured by day number, ex. Aug. 30 to Sep. 30 or
+        # Apr. 19 to May 19 are valid)
+        return False
+
+      else:
+        dates = [start_date, end_date]
+        # loop to reduce code
+
+        for day in dates:
+          # ensure the month in the date has the correct number of days
+          if int(str(day)[4:6]) in thirty_days:
+            if int(str(day)[6:]) <= 30:
+              return True
+            else:
+              return False
+              return
+          elif int(str(day)[4:6]) in thirtyone_days:
+            if int(str(day)[6:]) <= 31:
+              return True
+            else:
+              return False
+          
+          elif int(str(day)[4:6]) == FEB:
+            # leap years only occur every 4th year except every 100 years when
+            # the year is not divisible by 400 (ex. 1900 was not a leap year, but
+            # 2000 was), so this block of code below detects whether or not the
+            # valid time can accomodate a leap year
+            if int(str(day)[0:4]) % 4 == 0:
+              if int(str(day)[2:4]) == 0 and int(str(day)[0:4]) % 400 != 0:
+                if int(str(day)[6:]) <= 28:
+                  return True
+                else:
+                  return False
+                  return
+              else:
+                if int(str(day)[6:]) <= 29:
+                  return True
+                else:
+                  return False
+                  return
+            else:
+              if int(str(day)[6:]) <= 28:
+                return True
+              else:
+                return False
+                
+          else:
+            return False
+            # some other error occurred
+
+def calc_number_of_nights(start_date,end_date):
+    """
+    Function calculates the number of days between the star date
+    and end date.
+    """
+    thirty_days = [4, 6, 9, 11]
+    thirtyone_days = [1, 3, 5, 7, 8, 10, 12]
+    FEB = 2
+    days=0
+
+    # Save values of dates 
+    start_year= int(str(start_date)[:4])
+    end_year= int(str(end_date)[:4])
+    start_month= int(str(start_date)[4:6])
+    start_day = int(str(start_date)[6:])
+    end_month = int(str(end_date)[4:6])
+    end_day = int(str(end_date)[6:])
+    
+    if start_month == end_month: # Days in same month
+        days= end_day - start_day 
+    else: 
+        # calculate days in start month
+        if start_month in thrity_days:
+            days = 30-start_day
+        elif start_month in thrityone_days:
+            days = 31 - start_day
+        elif start_month== FEB:
+            if ((start_year % 4 == 0 and start_year % 100 != 0) or
+                 (start_year % 100 == 0 and start_year % 400 != 0)):
+                    days = 29 - start_day
+            else:
+                days = 28 - start_day
+       
+       # calculate days in end month 
+        if end_month in thrity_days:
+            days = days + end_day
+        elif end_month in thrityone_days:
+            days = days + end_day
+        elif end_month== FEB:
+            if ((end_year % 4 == 0 and end_year % 100 != 0) or
+                (end_year % 100 == 0 and end_year % 400 != 0)):
+                days = days + end_day
+            else:
+                days = days + start_day
+                
+    return days
+        
+def scheduling_conflict(listing, start_date, end_date):
+    """
+    This function will look through the transactions in the tranactions
+    table to see if any transactions for the given property have
+    overlaping dates with the potential new booking dates. 
+    """
+    # Don't know if this works
+    this_property=listing.description
+    unavailabile = select([Transaction.columns.start_date,Transaction.columns.end_date, ])      
+    unavailabile = unavailabile.where(property == this_property)
+    
+    # put code looking for conflicts here 
+
+
+def book_listing(user, listing, start_date, end_date):
+    """
+    This function confirms that booking is possible,
+    then makes the booking.
+    Parameters:
+        user (User): user idenity
+        listing (Listing): listing user wants to book
+        start_date ()
+    Returns:
+        True if the booking is made successfully and false if the
+        booking failed. 
+    """
+    # make sure listing does not belong to user
+    if user == lising.user:
+        return False
+    
+    # make sure given dates are vaild 
+    vaild_dates = check_dates(start_date,end_date)
+    if not vaild_dates:
+        return False    
+    
+    # make sure user has big enough balance
+    enough_funds= check_balance(user.balance, listing.price_per_night, 
+                                calc_number_of_nights(start_date,end_date))
+    if not enough_funds:
+        return False
+    
+    # make sure listing is available for time period 
+        # call scheduling_conflict 
+    
+    # now that we know transaction request is valid, create transaction
+    
+    
 def login(email, password):
     # TODO change to email
     """
@@ -78,6 +316,7 @@ def login(email, password):
         username (string): user name
         password (string): user password
     """
+    
     # TODO: find some way to obscure passwords at login?
 
     if verify_password(password) and verify_email(email):
@@ -334,7 +573,8 @@ def validate_username(username):
 
 def title_check(self):
     """
-    :return: a boolean value that determines whether the title is valid
+    :return: a boolean value that determines whether the title
+    of a listing is valid
     """
     # This serves to satisfy requirements R4-1 and R4-2
     if self.title.isalnum() and \
@@ -347,6 +587,10 @@ def title_check(self):
 
 
 def description_check(self):
+    """
+    :return: a boolean value that determines whether the discription
+    of a listing is valid
+    """
     # this serves to satisfy requirements R4-3, R4-4
     if len(self.description) < 20 or len(self.description) > 2000 or \
             len(self.description) < len(self.title):
@@ -357,6 +601,10 @@ def description_check(self):
 
 # R4-5: Price has to be of range [10, 10000]
 def price_validation(self):
+    """
+    :return: a boolean value that determines whether the price
+    of a listing is valid
+    """
     # checking to see if the price is valid
     if self.price < 10 or self.price > 10000:
         return False
@@ -367,6 +615,10 @@ def price_validation(self):
 
 
 def date_validation(self):
+    """
+    :return: a boolean value that determines whether the date
+    of a listing is valid
+    """
     # checking to see if the date is valid
     if self.last_modified_date < "2021-01-02" or \
             self.last_modified_date > "2025-01-02":
@@ -387,6 +639,10 @@ def owner_email_validation(self):
 
 # R4-8: A user cannot create products that have the same title
 def title_validation(self):
+    """
+    :return: a boolean value that determines whether the title
+    of a listing is has been used before
+    """
     # checking to see if the title is valid
     if self.title in db.Model:
         return False
