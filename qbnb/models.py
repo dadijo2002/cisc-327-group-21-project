@@ -7,6 +7,8 @@ from qbnb import app
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, ForeignKey, Integer, Table
+from sqlalchemy.orm import declarative_base, relationship
 from email_validator import validate_email, EmailNotValidError
 
 # app = Flask(__name__)
@@ -30,7 +32,7 @@ class User(db.Model):
 
     listings = db.relationship('listing', backref='user')
 
-    # bookings = db.relationship('booking', backref='User')
+    transaction = db.relationship('transaction', backref='user')
 
     # Make relationship with listings and booking databases
     # TODO: ensure listing and booking databases have corresponding code
@@ -49,6 +51,7 @@ class listing(db.Model):
         availability(Str): A string that says whether or
         not a listing is available
     """
+    id = db.Column(db.Integer, primary_key=True)
     host = db.Column(db.String(80), nullable=False)
     title = db.Column(db.String(80), unique=True, nullable=False, primary_key=True)
     location = db.Column(db.String(120), unique=True, nullable=False)
@@ -62,18 +65,24 @@ class listing(db.Model):
     owner_email = db.Column(db.String(120), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    transaction = db.relationship('transaction', backref='listing')
+
     def __repr__(self):
         return '<User %r>' % self.username
 
 class Transaction(db.Model):
   
-  id = db.Column(db.Integer, primary_key=True)
-  start_date = db.Column(db.Integer, nullable=False)
-  end_date = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    start_date = db.Column(db.Integer, nullable=False)
+    end_date = db.Column(db.Integer, nullable=False)
 
-  renter = db.relationship('renter', backref='user')
-  seller = db.relationship('seller', backref='user')
-  property = db.relationship('property', backref='listing')
+    renter_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    seller_id= db.Column(db.Integer, db.ForeignKey('user.id'))
+    listing_id = db.Column(db.Integer, db.ForeignKey('listing.id'))
+
+    # renter = db.relationship('renter', backref='user')
+    # owner = db.relationship('owner', backref='user')
+    # property = db.relationship('property', backref='listing')
 
 #   def __init__(self, user, listing_info):
 #     self.user = user # user specific info
@@ -234,9 +243,9 @@ def calc_number_of_nights(start_date,end_date):
         days= end_day - start_day 
     else: 
         # calculate days in start month
-        if start_month in thrity_days:
+        if start_month in thirty_days:
             days = 30-start_day
-        elif start_month in thrityone_days:
+        elif start_month in thirtyone_days:
             days = 31 - start_day
         elif start_month== FEB:
             if ((start_year % 4 == 0 and start_year % 100 != 0) or
@@ -246,9 +255,9 @@ def calc_number_of_nights(start_date,end_date):
                 days = 28 - start_day
        
        # calculate days in end month 
-        if end_month in thrity_days:
+        if end_month in thirty_days:
             days = days + end_day
-        elif end_month in thrityone_days:
+        elif end_month in thirtyone_days:
             days = days + end_day
         elif end_month== FEB:
             if ((end_year % 4 == 0 and end_year % 100 != 0) or
@@ -259,18 +268,61 @@ def calc_number_of_nights(start_date,end_date):
                 
     return days
         
-def scheduling_conflict(listing, start_date, end_date):
+def no_scheduling_conflict(listing, start, end):
     """
     This function will look through the transactions in the tranactions
     table to see if any transactions for the given property have
     overlaping dates with the potential new booking dates. 
     """
-    # Don't know if this works
-    this_property=listing.description
-    unavailabile = select([Transaction.columns.start_date,Transaction.columns.end_date, ])      
-    unavailabile = unavailabile.where(property == this_property)
+    flag= True # defult is: no conflict 
     
-    # put code looking for conflicts here 
+    # thirty_days = [4, 6, 9, 11]
+    # thirtyone_days = [1, 3, 5, 7, 8, 10, 12]
+    # FEB = 2
+    # days=0
+    end_of_month= [131,228,331,430,531,630,731,831,930,1031,1130,1231]
+
+    # Save values of dates 
+    start_year= int(str(start)[:4])
+    end_year= int(str(end)[:4])
+    start_month= int(str(start)[4:6])
+    start_day = int(str(start)[6:])
+    end_month = int(str(end)[4:6])
+    end_day = int(str(end)[6:])
+    
+    unavilable= Transaction.query.filter_by(listing_id = listing.id)
+    for booking in unavilable:
+        
+        if (int(str(booking.start_date)[:4]) == start_year or
+            int(str(booking.end_date)[:4]) == start_year or 
+            int(str(booking.start_date)[:4]) == end_year or
+            int(str(booking.end_date)[:4]) == end_year):
+                # if booking and wanted time in the same years
+
+            if (int(str(booking.start_date)[4:6]) == start_month or
+            int(str(booking.end_date)[4:6]) == start_month or 
+            int(str(booking.start_date)[4:6]) == end_month or
+            int(str(booking.end_date)[4:6]) == end_month):
+                # if booking and wanted time are in same months
+                
+                if (start_day==1 or ( int(str(end)[4:]) in end_of_month)):
+                # if the booking starts on a 1 or ends on the last day of the month 
+                    if ( not (int(str(booking.end_date)[4:6]) == start_month-1) and 
+                         not (int(str(booking.start_date)[4:6]) == end_month +1)):
+                    # if end date for wanted time is not before start
+                    # date of booking or the start date for wanted
+                    # time is not after the booking end date
+                         flag = False # There is a conflict 
+                
+                elif(not (end_day < int(str(booking.start_date)[6:])) and 
+                    not (start_day> int(str(booking.end_date)[6:]))):
+                     # if the end date from the potential booking is
+                     # not before the start date of a booking and the
+                     # start date of the potential booking is not
+                     # after the end of a booking 
+                    flag= True # There is no conflict 
+    return flag
+
 
 
 def book_listing(user, listing, start_date, end_date):
@@ -286,7 +338,7 @@ def book_listing(user, listing, start_date, end_date):
         booking failed. 
     """
     # make sure listing does not belong to user
-    if user == lising.user:
+    if user == listing.user:
         return False
     
     # make sure given dates are vaild 
@@ -301,10 +353,20 @@ def book_listing(user, listing, start_date, end_date):
         return False
     
     # make sure listing is available for time period 
-        # call scheduling_conflict 
+    if not no_scheduling_conflict(listing, start_date,end_date):
+        return False
     
     # now that we know transaction request is valid, create transaction
+    booking = Transaction(start_date = start_date, end_date=end_date,
+                          renter_id = user.id, seller_id = listing.user_id,
+                          listing_id= listing.id)
     
+    # add it to the current database session 
+    db.session.add(booking)
+    # Actually save the booking object 
+    db.session.commit()
+    return True
+
     
 def login(email, password):
     # TODO change to email
