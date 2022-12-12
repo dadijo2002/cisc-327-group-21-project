@@ -1,7 +1,7 @@
 """
 Contains the backend testing functions
 """
-from qbnb.models import User, register, login
+from qbnb.models import User, register, listing, login, Transaction
 
 
 # Register tests
@@ -88,3 +88,57 @@ def test_r1_6_user_register():
     """
     user = User.query.filter_by(username='u0').first()
     assert (user.balance == 100) is True
+
+def test_a6_calc_number_of_nights():
+    """
+    Testing new requirements implemented in A6
+    """
+    # standard
+    assert calc_number_of_nights('20231010', '20231012') == 2
+    # month change
+    assert calc_number_of_nights('20231031', '20231101') == 1
+    # year change
+    assert calc_number_of_nights('20231231', '20240101') == 1
+    # leap year
+    assert calc_number_of_nights('20240228', '20240301') == 2
+    # not leap year
+    assert calc_number_of_nights('20230228', '20230301') == 1
+    # leap day
+    assert calc_number_of_nights('20240229', '20240301') == 1
+    # 31 days
+    assert calc_number_of_nights('20231030', '20231101') == 2
+    # 30 days
+    assert calc_number_of_nights('20230930', '20231001') == 1
+
+
+def test_a6_book_listing():
+    """
+    """
+
+    # valid
+    listing_newest = listing('testeruser420', 'NewListing', '123 Sesame St.', 2, 1000, \
+        'wifi, pool', 'This is a test listing', '20231010', '20221212', 'email@gmail.ca', 1203989)
+
+    # balance too low
+    listing_new = listing('testeruser420', 'NewListing', '123 Sesame St.', 2, 1000, \
+        'wifi, pool', 'This is a test listing', '20231010', '20221212', 'email@gmail.ca', 1203989)
+
+    # not aviailable
+    also_listing_new = listing('testeruser420', 'NewListing', '123 Sesame St.', 2, 100, \
+        'wifi, pool', 'This is a test listing', '20220505', '20221212', 'email@gmail.ca', 1203989)
+
+    # user's listing
+    other_listing_new = listing('u0', 'NewListing', '123 Sesame St.', 2, 100, \
+        'wifi, pool', 'This is a test listing', '20231010', '20221212', 'email@gmail.ca', 0)
+
+    user = User.query.filter_by(username='u0').first()
+    
+    assert listing_new
+    assert listing_newest
+    assert also_listing_new
+    assert other_listing_new
+
+    assert book_listing(user, listing_newest, '20231010', '20231011') is True
+    assert book_listing(user, listing_new, '20231010', '20231011') is False
+    assert book_listing(user, also_listing_new, '20231010', '20231011') is False
+    assert book_listing(user, other_listing_new, '20231010', '20231011') is False
