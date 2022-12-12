@@ -1,0 +1,27 @@
+<!-- HTML for a booking system -->
+<!-- User can book a listing -->
+<form>
+    <label for="listing">Select a listing:</label><br>
+    <select id="listing" name="listing">
+        <option value="listing1">Listing 1</option>
+        <option value="listing2">Listing 2</option>
+        <option value="listing3">Listing 3</option>
+    </select><br>
+
+    <!-- User cannot book a listing for their own listing -->
+    <label for="owner">Owner:</label><br>
+    <input type="text" id="owner" name="owner"><br>
+
+    <!-- User cannot book a listing that costs more than their balance -->
+    <label for="balance">Balance:</label><br>
+    <input type="number" id="balance" name="balance"><br>
+
+    <!-- User cannot book a listing that is already booked with the overlapped dates -->
+    <label for="start_date">Start Date:</label><br>
+    <input type="date" id="start_date" name="start_date"><br>
+
+    <label for="end_date">End Date:</label><br>
+    <input type="date" id="end_date" name="end_date"><br>
+
+    <input type="submit" value="Book">
+</form>
