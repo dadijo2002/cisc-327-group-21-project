@@ -14,6 +14,53 @@ Yash Patel
 
 
 **SCRUM MEETS**
+
+*A6 scrum meet*
+
+Makayla
+
+Branch: booking_backend
+
+Progress: finished first draft of  backend booking system
+
+Difficulties: finding a way to make sure there is no overlapping bookings 
+
+Plan for completing:contact a TA and keep searching for online resources to help
+
+Yash
+
+Branch: Booking_Frontend
+
+Progress: Completed the frontend, made two different copies of the booking page so we can try both out to see what works best. I have also pushed the changes to
+dockerhub, so it can be built into an image for hosting!
+
+Difficulties: Understanding how to maintain a docker image and host it on my desktop
+
+Plan for completing: Contact a ta for help. I will also further my online research into docker. 
+
+Daniel
+
+Branch: a6-backend-tests
+
+Progress: Completed backend testing, need review from everyone else to see if I forgot anything
+
+Difficulties: thinking about how to test a listing that isn’t made by the user but I think I figured it out
+
+Plan for completing: already complete :) just awaiting review
+
+Aniket
+
+Branch: booking_security_integration_testing
+
+Progress: in progress
+
+Difficulties: Which function do I choose for SQLi testing? Which html file should I do integration testing for
+
+Plan for completing: I will likely try to do integration testing on both html files so that we cover both bases. As for SQLi testing, I will likely choose the book_listings function
+
+
+
+
 A5 scrum meet 
 Makayla
 
